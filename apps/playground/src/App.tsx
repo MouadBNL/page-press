@@ -1,23 +1,19 @@
-import { SaveButton } from "@pagepress/react"
+import { Editor } from "@pagepress/react"
 import { Button } from "@pagepress/ui/components/button"
 
 function App() {
 
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-          <SaveButton />
-        </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <Editor.Root>
+      <header className="flex justify-end p-2 border-b">
+        <Editor.Gate>
+          <Editor.Demo />
+        </Editor.Gate>
+        <Button>Save</Button>
+
+      </header>
+      <Editor.Canvas />
+    </Editor.Root>
   )
 }
 

@@ -1,4 +1,1 @@
-
-
-
-export { test } from './utils/test.ts'
+export * from './kernel';
