@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "@pagepress/core": "workspace:*",
+    "@pagepress/ui": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
