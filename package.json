@@ -1,0 +1,20 @@
+{
+  "name": "page-press",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Monorepo for the PagePress web editor",
+  "scripts": {
+    "dev": "pnpm --filter playground dev",
+    "typecheck": "pnpm -r exec tsc --noEmit"
+  },
+  "keywords": [
+    "pagepress",
+    "web editor"
+  ],
+  "author": "Mouad Benali",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.29.3",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
