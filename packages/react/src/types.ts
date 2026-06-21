@@ -12,9 +12,4 @@ export type EditorContextType = {
 }
 
 
-
-export interface PanelDefintion {
-	id: string;
-	icon: ReactNode;
-	label: string;
-}
+export type SidebarPanels = 'element-styles' | 'element-settings';

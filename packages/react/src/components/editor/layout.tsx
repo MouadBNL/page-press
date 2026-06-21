@@ -5,7 +5,7 @@ type Props = React.PropsWithChildren;
 export function EditorLayout({children}: Props) {
 
 	return (
-		<ResizablePanelGroup orientation="horizontal">
+		<ResizablePanelGroup orientation="horizontal" >
 			{children}
 		</ResizablePanelGroup>
 	)

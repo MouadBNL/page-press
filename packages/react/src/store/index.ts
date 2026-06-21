@@ -1,18 +1,15 @@
 import { createStore } from "zustand";
-import { createLeftSidebarSlice, LeftSidebarSlice } from "./slices/left-sidebar-slice";
-import { createRightSidebarSlice, RightSidebarSlice } from "./slices/right-sidebar-slice";
-import { createPanelsSlice, PanelsSlice } from "./slices/panels-slice";
+import { createActivityBarSlice, ActivityBarSlice } from "./slices/activity-bar-slice";
+import { createSidebarSlice, SidebarSlice } from "./slices/sidebar-slice";
 
 export type EditorStoreSlices = 
-& LeftSidebarSlice 
-& RightSidebarSlice
-& PanelsSlice;
+& ActivityBarSlice 
+& SidebarSlice
 
 export function createEditorStore() {
 	return createStore<EditorStoreSlices>()((...args) => ({
-		...createLeftSidebarSlice(...args),
-		...createRightSidebarSlice(...args),
-		...createPanelsSlice(...args),
+		...createActivityBarSlice(...args),
+		...createSidebarSlice(...args),
 	}))
 }
 

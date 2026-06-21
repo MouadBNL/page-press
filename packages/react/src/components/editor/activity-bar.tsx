@@ -1,0 +1,129 @@
+import { ResizableHandle, ResizablePanel } from "@pagepress/ui/components/resizable";
+import React, { Children, isValidElement, ReactNode, useEffect } from "react";
+import { useEditorStore } from "../../hooks/use-editor-store";
+import { cn } from "@pagepress/ui/lib/utils";
+
+
+type PanelDefintion  = {
+	id: string,
+	icon: ReactNode,
+	label: string,
+}
+
+
+type Props = React.PropsWithChildren<{
+	side: "left" | "right",
+	defaultSize?: number | string | undefined;
+}>;
+export function EditorActivityBar({ children, side, defaultSize }: Props) {
+
+	const activePanel = useEditorStore((s) =>  s.activityBarPanel);
+	const togglePanel = useEditorStore((s) => s.toggleActivityBarPanel);
+
+	const panels = extractPanelDefs(children);
+
+	const handleToggle = (panelId: string) => {
+		togglePanel(panelId);
+	};
+
+	const activePanelContent = findActivePanelContent(children, activePanel);
+
+	return (
+		<>
+			{side == 'right' && activePanel && (
+				<ResizableHandle withHandle />
+			)}
+			{side == 'left' && (
+				<SidebarRail panels={panels} activePanel={activePanel} onPanelToggle={handleToggle} side={side} />
+			)}
+
+			{activePanel && (
+				<ResizablePanel defaultSize={defaultSize}>
+					{activePanelContent}
+				</ResizablePanel>
+			)}
+
+			{side == 'left' && activePanel && (
+				<ResizableHandle withHandle />
+			)}
+			{side == 'right' && (
+				<SidebarRail panels={panels} activePanel={activePanel} onPanelToggle={handleToggle} side={side} />
+			)}
+		</>
+	)
+}
+
+
+
+
+
+
+type SidebarRailProps = {
+	panels: PanelDefintion[];
+	activePanel: string | null;
+	onPanelToggle: (panelId: string) => void;
+	side: "left" | "right";
+};
+export function SidebarRail({
+	panels,
+	activePanel,
+	onPanelToggle,
+	side,
+}: SidebarRailProps) {
+
+	return (
+		<div
+			className={cn(
+				"h-full w-10 shrink-0 flex flex-col items-center py-2 gap-1 bg-background",
+				side === "right" && "border-l border-border",
+				side === "left" && "border-r border-border",
+			)}
+		>
+			{panels.map((panel) => (
+				<button
+					key={panel.id}
+					onClick={() => onPanelToggle(panel.id)}
+					className={cn(
+						"relative w-8 h-8 flex items-center justify-center rounded-md transition-all duration-150",
+						activePanel === panel.id
+							? "bg-card text-foreground shadow-sm"
+							: "text-muted-foreground hover:bg-muted",
+					)}
+					title={panel.label}
+				>
+					{panel.icon}
+				
+				</button>
+			))}
+		</div>
+	);
+}
+
+
+
+function extractPanelDefs(children: ReactNode): PanelDefintion[] {
+	const defs: PanelDefintion[] = [];
+	Children.forEach(children, (child) => {
+		if (isValidElement<PanelDefintion>(child) && child.props.id) {
+			defs.push({
+				id: child.props.id,
+				icon: child.props.icon,
+				label: child.props.label,
+			});
+		}
+	});
+	return defs;
+}
+
+
+
+function findActivePanelContent(children: ReactNode, activePanel: string | null): ReactNode {
+	if (!activePanel) return null;
+	let content: ReactNode = null;
+	Children.forEach(children, (child) => {
+		if (isValidElement<PanelDefintion>(child) && child.props.id === activePanel) {
+			content = child;
+		}
+	});
+	return content;
+}

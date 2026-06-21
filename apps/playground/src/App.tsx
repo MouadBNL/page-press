@@ -6,8 +6,8 @@ import { IconBox, IconComponents } from "@tabler/icons-react"
 function App() {
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      <Editor.Root className="flex-1 overflow-hidden" blocks={DEFAULT_BLOCKS}>
+    <div className="h-screen overflow-hidden flex flex-col">
+      <Editor.Root className="flex flex-col overflow-hidden" blocks={DEFAULT_BLOCKS}>
         <header className="flex justify-end p-2 border-b">
           <Editor.Gate>
             <Editor.Demo />
@@ -15,17 +15,25 @@ function App() {
           <Button>Save</Button>
         </header>
         <Editor.Layout>
-          <Editor.Sidebar side="left" defaultSize="15%">
-            <Editor.Panel id="blocks" label="Blocks" icon={<IconBox className="size-5"  />}>
+          <Editor.ActivityBar side="left" defaultSize="15%">
+            <Editor.ActivityBarItem id="blocks" label="Blocks" icon={<IconBox className="size-5" />}>
               <Editor.Panels.Blocks />
-            </Editor.Panel>
-            <Editor.Panel id="components" label="Components" icon={<IconComponents  className="size-5" />}>
+            </Editor.ActivityBarItem>
+            <Editor.ActivityBarItem id="components" label="Components" icon={<IconComponents className="size-5" />}>
               Components
-            </Editor.Panel>
-          </Editor.Sidebar>
+            </Editor.ActivityBarItem>
+          </Editor.ActivityBar>
           <Editor.Canvas className="flex-1 flex flex-col h-full overflow-hidden" />
-          <Editor.Sidebar side="right" defaultSize="20%">
-            <h3>Right sidebar</h3>
+          <Editor.Sidebar defaultSize="20%">
+            <Editor.SidebarHeader />
+            <Editor.SidebarTabs>
+              <Editor.SidebarTabItem label="Styles" id="element-styles">
+                <Editor.Panels.ElementStyles />
+              </Editor.SidebarTabItem>
+              <Editor.SidebarTabItem label="Settings" id="element-settings">
+                <Editor.Panels.ElementSettings />
+              </Editor.SidebarTabItem>
+            </Editor.SidebarTabs>
           </Editor.Sidebar>
         </Editor.Layout>
       </Editor.Root>
