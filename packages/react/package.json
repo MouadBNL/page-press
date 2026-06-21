@@ -13,7 +13,7 @@
   "dependencies": {
     "@pagepress/core": "workspace:*",
     "@pagepress/ui": "workspace:*",
-    "lucide-react": "^1.17.0",
+    "@tabler/icons-react": "^3.44.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "zustand": "^5.0.14"

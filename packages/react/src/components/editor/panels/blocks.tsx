@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useEditor } from "../../../hooks/use-editor";
 import { BlockDefinition } from "@pagepress/core";
-import { BoxIcon } from "lucide-react";
+import { IconCube3dSphere } from "@tabler/icons-react";
 
 
 
@@ -52,7 +52,7 @@ export function EditorBlocksPanel() {
 								onDragEnd={() => editor.run('blocks:drag-end', {})}
 								className="flex cursor-grab flex-col items-center gap-1.5 rounded-md border bg-card p-3 text-xs text-card-foreground transition-colors hover:border-ring hover:bg-accent active:cursor-grabbing"
 							>
-								<BoxIcon className="size-8 text-muted-foreground" />
+								<IconCube3dSphere className="size-8 text-muted-foreground" />
 								{block.label}
 							</button>
 						))}
