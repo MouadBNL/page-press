@@ -1,10 +1,13 @@
 import { EventBus } from "../lib/event-bus";
+import { BlockEvents } from "../modules/blocks";
 import { ComponentEvents } from "../modules/components";
 import { EditorContext } from "./types";
 
 
 
-export type EditorEvents = ComponentEvents;
+export type EditorEvents = &
+	ComponentEvents &
+	BlockEvents;
 
 export type EditorEventBus = EventBus<EditorEvents>;
 

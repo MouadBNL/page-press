@@ -4,21 +4,26 @@ import { EditorContext, EditorOptions } from "./types";
 import { createEditorCommandBus, EditorCommandBus, EditorCommandMap, registerEditorCommandHandlers } from "./commands";
 import { EventHandler } from "../lib/event-bus";
 import { PayloadOf, ResultOf } from "../lib/command-bus";
+import { BlockManager } from "../modules/blocks";
 
 export class Editor {
 	private _evtbus: EditorEventBus;
 	private _cmdbus: EditorCommandBus;
 	private _context: EditorContext;
 
+	private _blockManager: BlockManager;
+
 	constructor(options: EditorOptions) {
 		this._evtbus = createEditorEventBus();
 		this._cmdbus = createEditorCommandBus();
+		this._blockManager = new BlockManager(options.blocks);
 		const editor = createGrapesjsEditor(options.container);
 
 		this._context = Object.freeze({
 			gjseditor: editor,
 			emit: (...args) => this._evtbus.emit(...args),
 			run: (...args) => this._cmdbus.dispatch(...args),
+			blockManager: this._blockManager,
 		});
 		registerEditorEvents(this._evtbus, this._context);
 		registerEditorCommandHandlers(this._cmdbus, this._context);

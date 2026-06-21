@@ -1,2 +1,2 @@
 
-export { Editor } from './modules/editor'
+export { Editor } from './components/editor'

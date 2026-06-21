@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { EditorContext } from "../context";
-import { Editor } from "@pagepress/core";
-import { createDeferred, Deferred } from "../../../lib/deferred";
+import { BlockDefinition, Editor } from "@pagepress/core";
+import { createDeferred, Deferred } from "../../lib/deferred";
+import { EditorContext } from "../../context";
 
-type Props = React.PropsWithChildren
-export function EditorRoot({ children }: Props) {
+type Props = React.ComponentProps<"section"> & {
+	blocks?: BlockDefinition[]
+};
+export function EditorRoot(props: Props) {
 	console.log('[EditorRoot] Mounted');
 
 	const editorRef = useRef<Editor | null>(null);
@@ -25,16 +27,17 @@ export function EditorRoot({ children }: Props) {
 	const value = useMemo(() => ({
 		promise: deferredRef.current!.promise,
 		setEditor,
-	}), [setEditor]);
+		blocks: props.blocks,
+	}), [setEditor, props.blocks]);
 
 	useEffect(() => {
-		if(!resolvedRef.current) return;
-		if(!mountedRef.current) {
+		if (!resolvedRef.current) return;
+		if (!mountedRef.current) {
 			mountedRef.current = true;
 			return;
 		}
 		return () => {
-			if(!editorRef.current) return;
+			if (!editorRef.current) return;
 			console.log("Cleaning up", {
 				editor: editorRef.current
 			})
@@ -46,7 +49,7 @@ export function EditorRoot({ children }: Props) {
 
 	return (
 		<EditorContext.Provider value={value}>
-			{children}
+			<section {...props} />
 		</EditorContext.Provider>
 	)
 }

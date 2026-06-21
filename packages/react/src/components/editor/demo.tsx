@@ -1,6 +1,6 @@
 import { Button } from "@pagepress/ui/components/button";
-import { useEditor } from "../hooks/use-editor";
 import { useCallback } from "react";
+import { useEditor } from "../../hooks/use-editor";
 
 
 
