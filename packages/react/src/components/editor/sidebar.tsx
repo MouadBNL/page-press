@@ -72,7 +72,7 @@ export function SidebarRail({
 	return (
 		<div
 			className={cn(
-				"h-full w-10 shrink-0 flex flex-col items-center py-2 gap-1 bg-card",
+				"h-full w-10 shrink-0 flex flex-col items-center py-2 gap-1 bg-background",
 				side === "right" && "border-l border-border",
 				side === "left" && "border-r border-border",
 			)}
@@ -84,21 +84,13 @@ export function SidebarRail({
 					className={cn(
 						"relative w-8 h-8 flex items-center justify-center rounded-md transition-all duration-150",
 						activePanel === panel.id
-							? "bg-white/10 text-white shadow-sm"
-							: "text-white/25 hover:text-white/50 hover:bg-white/5",
+							? "bg-card text-foreground shadow-sm"
+							: "text-muted-foreground hover:bg-muted",
 					)}
 					title={panel.label}
 				>
 					{panel.icon}
-					{activePanel === panel.id && (
-						<div
-							className={cn(
-								"absolute top-1/2 -translate-y-1/2 w-0.5 h-4 rounded bg-blue-400",
-								side === "right" && "right-0 rounded-l",
-								side === "left" && "left-0 rounded-r",
-							)}
-						/>
-					)}
+				
 				</button>
 			))}
 		</div>
