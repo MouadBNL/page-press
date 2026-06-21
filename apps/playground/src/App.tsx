@@ -17,7 +17,7 @@ function App() {
         <Editor.Layout>
           <Editor.Sidebar side="left" defaultSize="15%">
             <Editor.Panel id="blocks" label="Blocks" icon={<ToyBrickIcon className="size-4"  />}>
-              Blocks
+              <Editor.Panels.Blocks />
             </Editor.Panel>
             <Editor.Panel id="components" label="Components" icon={<ComponentIcon  className="size-4" />}>
               Components
