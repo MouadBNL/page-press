@@ -11,10 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pagepress/core": "workspace:*",
+    "@pagepress/ui": "workspace:*",
+    "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "@pagepress/core": "workspace:*",
-    "@pagepress/ui": "workspace:*"
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

@@ -2,17 +2,24 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BlockDefinition, Editor } from "@pagepress/core";
 import { createDeferred, Deferred } from "../../lib/deferred";
 import { EditorContext } from "../../context";
+import { createEditorStore, EditorStore } from "../../store";
+import { EditorContextType } from "../../types";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
 };
 export function EditorRoot(props: Props) {
-	console.log('[EditorRoot] Mounted');
 
 	const editorRef = useRef<Editor | null>(null);
 	const deferredRef = useRef<Deferred<Editor> | undefined>(undefined);
 	const resolvedRef = useRef<boolean>(false);
 	const mountedRef = useRef<boolean>(false); // needed for Strict mode remounting
+
+	// Zustand store
+	const storeRef = useRef<EditorStore>(undefined);
+	if (!storeRef.current) {
+		storeRef.current = createEditorStore();
+	}
 
 	if (!deferredRef.current) {
 		deferredRef.current = createDeferred<Editor>();
@@ -24,10 +31,11 @@ export function EditorRoot(props: Props) {
 		deferredRef.current!.resolve(editor);
 	}, []);
 
-	const value = useMemo(() => ({
+	const value = useMemo<EditorContextType>(() => ({
 		promise: deferredRef.current!.promise,
 		setEditor,
 		blocks: props.blocks,
+		store: storeRef.current!,
 	}), [setEditor, props.blocks]);
 
 	useEffect(() => {

@@ -1,6 +1,7 @@
 import { DEFAULT_BLOCKS } from "@pagepress/core"
 import { Editor } from "@pagepress/react"
 import { Button } from "@pagepress/ui/components/button"
+import { ComponentIcon, ToyBrickIcon } from "lucide-react"
 
 function App() {
 
@@ -15,7 +16,12 @@ function App() {
         </header>
         <Editor.Layout>
           <Editor.Sidebar side="left" defaultSize="15%">
-            <h3>Left Sidebar</h3>
+            <Editor.Panel id="blocks" label="Blocks" icon={<ToyBrickIcon className="size-4"  />}>
+              Blocks
+            </Editor.Panel>
+            <Editor.Panel id="components" label="Components" icon={<ComponentIcon  className="size-4" />}>
+              Components
+            </Editor.Panel>
           </Editor.Sidebar>
           <Editor.Canvas className="flex-1 flex flex-col h-full overflow-hidden" />
           <Editor.Sidebar side="right" defaultSize="20%">
