@@ -14,6 +14,7 @@
     "@pagepress/core": "workspace:*",
     "@pagepress/ui": "workspace:*",
     "@tabler/icons-react": "^3.44.0",
+    "class-variance-authority": "^0.7.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "zustand": "^5.0.14"

@@ -28,6 +28,7 @@ function App() {
             <Editor.SidebarHeader />
             <Editor.SidebarTabs>
               <Editor.SidebarTabItem label="Styles" id="element-styles">
+                <Editor.Panels.ElementSelectors />
                 <Editor.Panels.ElementStyles />
               </Editor.SidebarTabItem>
               <Editor.SidebarTabItem label="Settings" id="element-settings">

@@ -2,11 +2,13 @@ import { CommandBus, CommandHandler } from "../lib/command-bus";
 import { BlockCommands } from "../modules/blocks";
 import { ComponentCommands } from "../modules/components";
 import { EditorContext } from "./types";
+import { SelectorCommands } from "../modules/selectors";
 
 
 const commands = {
 	...ComponentCommands,
-	...BlockCommands
+	...BlockCommands,
+	...SelectorCommands,
 }
 
 export type EditorCommandMap = {

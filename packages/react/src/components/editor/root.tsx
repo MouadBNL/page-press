@@ -6,6 +6,7 @@ import { createEditorStore, EditorStore } from "../../store";
 import { EditorContextType } from "../../types";
 import { EditorGate } from "./gate";
 import { useEditorSelectedSync } from "../../hooks/use-editor-selected-sync";
+import { useEditorSelectorsSync } from "../../hooks/use-editor-selectors-sync";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
@@ -70,6 +71,7 @@ export function EditorRoot(props: Props) {
 
 function EditorSync() {
 	useEditorSelectedSync();
-	
+	useEditorSelectorsSync();
+
 	return  null;
 }

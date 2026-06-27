@@ -3,6 +3,7 @@ import { useEditorStore } from "../../hooks/use-editor-store"
 import { SidebarPanels } from "../../types";
 import { Children, isValidElement, ReactNode } from "react";
 import { EditorSidebarTabItemProps } from "./sidebar-tab-item";
+import { EditorGate } from "./gate";
 
 
 
@@ -21,18 +22,20 @@ export function EditorSidebarTabs({ children }: Props) {
 
 	return (
 		<div className="h-full overflow-hidden flex flex-col">
-			<Tabs value={sidebarPanel} onValueChange={(v) => toggleSidebarPanel(v as SidebarPanels)}>
-				<TabsList variant="line" className="p-0 w-full border-b">
-					{tabs.map(tab => (
-						<TabsTrigger value={tab.id} key={tab.id}>
-							{tab.label}
-						</TabsTrigger>
-					))}
-				</TabsList>
-			</Tabs>
-			<div className="flex-1 h-full overflow-auto">
-				{content}
-			</div>
+			<EditorGate>
+				<Tabs value={sidebarPanel} onValueChange={(v) => toggleSidebarPanel(v as SidebarPanels)}>
+					<TabsList variant="line" className="p-0 w-full border-b">
+						{tabs.map(tab => (
+							<TabsTrigger value={tab.id} key={tab.id}>
+								{tab.label}
+							</TabsTrigger>
+						))}
+					</TabsList>
+				</Tabs>
+				<div className="flex-1 h-full overflow-auto">
+					{content}
+				</div>
+			</EditorGate>
 		</div>
 	)
 }

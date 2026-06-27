@@ -2,11 +2,13 @@ import { createStore } from "zustand";
 import { createActivityBarSlice, ActivityBarSlice } from "./slices/activity-bar-slice";
 import { createSidebarSlice, SidebarSlice } from "./slices/sidebar-slice";
 import { createSelectedComponentSlice, SelectedComponentSlice } from "./slices/selected-component-slice";
+import { createSelectorsSlice, SelectorsSlice } from "./slices/selectors-slice";
 
 export type EditorStoreSlices = 
 & ActivityBarSlice 
 & SidebarSlice
-& SelectedComponentSlice;
+& SelectedComponentSlice
+& SelectorsSlice;
 
 
 
@@ -15,6 +17,7 @@ export function createEditorStore() {
 		...createActivityBarSlice(...args),
 		...createSidebarSlice(...args),
 		...createSelectedComponentSlice(...args),
+		...createSelectorsSlice(...args),
 	}))
 }
 
