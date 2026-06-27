@@ -73,6 +73,9 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 								if (e.key === 'Enter') {
 									handleAddSelected();
 								}
+								if(e.key == 'Backspace') {
+									handleRemoveSelected(selectors[selectors.length - 1]);
+								}
 							}}
 						/>
 					</div>
