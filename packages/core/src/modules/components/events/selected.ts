@@ -1,5 +1,6 @@
+import { Component } from "../../../kernel/types";
 
 
 export type ComponentSelectedEvent = {
-	'selected:changed': void;
+	'components:selected': Component;
 }

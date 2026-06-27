@@ -4,6 +4,8 @@ import { createDeferred, Deferred } from "../../lib/deferred";
 import { EditorContext } from "../../context";
 import { createEditorStore, EditorStore } from "../../store";
 import { EditorContextType } from "../../types";
+import { EditorGate } from "./gate";
+import { useEditorSelectedSync } from "../../hooks/use-editor-selected-sync";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
@@ -57,7 +59,17 @@ export function EditorRoot(props: Props) {
 
 	return (
 		<EditorContext.Provider value={value}>
+			<EditorGate>
+				<EditorSync />
+			</EditorGate>
 			<section {...props} />
 		</EditorContext.Provider>
 	)
+}
+
+
+function EditorSync() {
+	useEditorSelectedSync();
+	
+	return  null;
 }

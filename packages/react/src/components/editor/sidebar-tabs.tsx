@@ -24,7 +24,7 @@ export function EditorSidebarTabs({ children }: Props) {
 			<Tabs value={sidebarPanel} onValueChange={(v) => toggleSidebarPanel(v as SidebarPanels)}>
 				<TabsList variant="line" className="p-0 w-full border-b">
 					{tabs.map(tab => (
-						<TabsTrigger value={tab.id}>
+						<TabsTrigger value={tab.id} key={tab.id}>
 							{tab.label}
 						</TabsTrigger>
 					))}

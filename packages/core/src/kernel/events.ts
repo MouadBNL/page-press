@@ -20,6 +20,6 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 	const editor = context.gjseditor;
 	editor.on('component:selected', (e) => {
 		console.log('component:selected', e)
-		bus.emit('selected:changed', undefined);
+		bus.emit('components:selected', e);
 	});
 }
