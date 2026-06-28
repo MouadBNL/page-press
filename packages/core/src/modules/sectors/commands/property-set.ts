@@ -1,11 +1,17 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
+import { PropertyQuery } from "../type";
+import { findProperty } from "../lib";
+
 
 
 type Payload = {
-	property: string;
+	query: PropertyQuery;
 	value: any;
 }
+
+
+
 
 export class SectorPropertySetCommand extends CommandHandler<Payload, boolean> {
 	private readonly _context: EditorContext;
@@ -17,15 +23,11 @@ export class SectorPropertySetCommand extends CommandHandler<Payload, boolean> {
 
 	async handle(payload: Payload): Promise<boolean> {
 		console.log('SectorPropertySetCommand', payload);
-		const editor = this._context.gjseditor;
-		for (const sector of editor.StyleManager.getSectors({ visible: true })) {
-			for (const property of sector.getProperties()) {
-				if (String(property.getId()) === payload.property) {
-					(property as { upValue?: (value: string) => void }).upValue?.(payload.value);
-					return Promise.resolve(true);
-				}
-			}
+		const property = findProperty(this._context.gjseditor, payload.query);
+		if (!property) {
+			return Promise.reject(false);
 		}
-		return Promise.reject(false);
+		property.upValue?.(payload.value);
+		return Promise.resolve(true);
 	}
 }

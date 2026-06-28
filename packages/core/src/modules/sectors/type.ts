@@ -17,3 +17,11 @@ export type SliderProperty = PropertySlider;
 export type ColorProperty = Property;
 export type CompositeProperty = PropertyComposite;
 export type StackProperty = PropertyStack;
+
+
+
+export type PropertyQuery = {
+	sector: string;
+	propertyId: string;
+	subPropertyId?: string;
+};

@@ -12,6 +12,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { Button } from "@pagepress/ui/components/button";
 import { useEditorCmd } from "../../../hooks/use-editor-cmd";
 import { Input } from "@pagepress/ui/components/input";
+import { debounce } from "@pagepress/core/src/lib/debouce";
 
 
 
@@ -50,7 +51,7 @@ function SectorItem({ sector }: { sector: Sector }) {
 			<AccordionContent>
 				<div className="flex flex-col gap-2">
 					{sector.properties.map(property => (
-						<PropertyItem key={property.id+sector.id} property={property} />
+						<PropertyItem key={property.id + sector.id} property={property} sectorId={sector.id} propertyId={property.getId()} />
 					))}
 				</div>
 			</AccordionContent>
@@ -59,19 +60,23 @@ function SectorItem({ sector }: { sector: Sector }) {
 }
 
 
-
-function PropertyItem({ property }: { property: SectorProperty }) {
-"use no memo"
-
-const { run } = useEditorCmd('style:property:set');
-
-
-const onChange = (value: any) => {
-	console.log('onChange', {value, property: property.getId()});
-	run({ property: property.getId(), value }).catch(err => {
-		console.error('onChange error', err);
-	});
+type PropertyItemProps = {
+	property: SectorProperty;
+	sectorId: string;
+	propertyId: string;
+	subPropertyId?: string;
 }
+function PropertyItem({ property, sectorId, propertyId, subPropertyId }: PropertyItemProps) {
+	"use no memo"
+
+	const { run } = useEditorCmd('style:property:set');
+
+	const onChange = (value: any) => {
+		run({ query: { sector: sectorId, propertyId, subPropertyId }, value }).catch(err => {
+			console.error('onChange error', err);
+		});
+	};
+
 	switch (property.getType()) {
 		case 'select':
 		case 'radio':
@@ -84,9 +89,9 @@ const onChange = (value: any) => {
 			return <ColorPropertyItem property={property as ColorProperty} onChange={onChange} />;
 
 		case 'composite':
-			return <CompositePropertyItem property={property as CompositeProperty} onChange={onChange} />;
+			return <CompositePropertyItem property={property as CompositeProperty} sectorId={sectorId} propertyId={propertyId} />;
 		case 'stack':
-			return <StackPropertyItem property={property as StackProperty} onChange={onChange} />;
+			return <StackPropertyItem property={property as StackProperty} sectorId={sectorId} propertyId={propertyId} />;
 		default:
 			return <DebugPropertyItem property={property} />;
 	}
@@ -157,21 +162,40 @@ function ColorPropertyItem({ property, onChange }: { property: ColorProperty, on
 }
 
 
-function CompositePropertyItem({ property, onChange }: { property: CompositeProperty, onChange: (value: any) => void }) {
+type CompositePropertyItemProps = {
+	property: CompositeProperty;
+	sectorId: string;
+	propertyId: string;
+	subPropertyId?: string;
+}
+function CompositePropertyItem({ property, sectorId, propertyId }: CompositePropertyItemProps) {
 	"use no memo";
 	return (
 		<div>
 			<label>{property.getLabel()}</label>
 			<div className="flex flex-col gap-2 bg-muted px-2 py-3 rounded-md">
 				{property.getProperties().map(property => (
-					<PropertyItem key={property.id} property={property} />
+					<PropertyItem
+						key={property.id}
+						property={property}
+						sectorId={sectorId}
+						propertyId={propertyId}
+						subPropertyId={property.getId()}
+					/>
 				))}
 			</div>
 		</div>
 	)
 }
 
-function StackPropertyItem({ property, onChange }: { property: StackProperty, onChange: (value: any) => void }) {
+
+type StackPropertyItemProps = {
+	property: StackProperty;
+	sectorId: string;
+	propertyId: string;
+	subPropertyId?: string;
+}
+function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItemProps) {
 	"use no memo";
 	return (
 		<div>
@@ -185,7 +209,13 @@ function StackPropertyItem({ property, onChange }: { property: StackProperty, on
 				{property.getLayers().map(layer => (
 					<div className="">
 						{property.getProperties().map(property => (
-							<PropertyItem key={property.id} property={property} />
+							<PropertyItem
+								key={property.id}
+								property={property}
+								sectorId={sectorId}
+								propertyId={propertyId}
+								subPropertyId={property.getId()}
+							/>
 						))}
 					</div>
 				))}
