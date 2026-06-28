@@ -46,6 +46,9 @@ export const defaultOptions: EditorConfig = {
   },
   components: `
         <div style="padding: 25px">Element A</div>
+        <div class="class-a">Element A</div>
+        <div class="class-b">Element B</div>
+        <div class="class-a class-b class-c">Element ABC</div>
         <div class="example example-a">Element B</div>
         <div style="padding: 20px">
             <div class="example-b1">Element B1</div>
@@ -68,5 +71,10 @@ export const defaultOptions: EditorConfig = {
             </div>
         </div>
         <div>Element C</div>
-    `
+    `,
+    style: `
+    .class-a { color: red; display: block }
+    .class-b { color: green; display: inline }
+    .class-c { color: blue; display: inline-block }
+  `,
 };

@@ -3,13 +3,13 @@ import { BlockEvents } from "../modules/blocks";
 import { ComponentEvents } from "../modules/components";
 import { EditorContext } from "./types";
 import { SelectorEvents } from "../modules/selectors";
-
-
+import { registerSectorEvents, SectorEvents } from "../modules/sectors/events";
 
 export type EditorEvents = &
 	ComponentEvents &
 	BlockEvents &
-	SelectorEvents;
+	SelectorEvents  &
+	SectorEvents;
 
 export type EditorEventBus = EventBus<EditorEvents>;
 
@@ -24,4 +24,7 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 		console.log('component:selected', e)
 		bus.emit('components:selected', e);
 	});
+	bus.emit('sectors:ready', undefined);
+
+	registerSectorEvents(bus, context);
 }

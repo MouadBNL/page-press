@@ -14,7 +14,6 @@ export function useEditorSelectedSync() {
 
 
 	useEffect(() => {
-		console.log('useEditorSelectedSync setup')
 		const handlechange = (component: Component) => {
 			if (component.cid == selectedComponent?.cid) return;
 			setSelectedComponent(component);

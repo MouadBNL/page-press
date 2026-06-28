@@ -3,13 +3,14 @@ import { createActivityBarSlice, ActivityBarSlice } from "./slices/activity-bar-
 import { createSidebarSlice, SidebarSlice } from "./slices/sidebar-slice";
 import { createSelectedComponentSlice, SelectedComponentSlice } from "./slices/selected-component-slice";
 import { createSelectorsSlice, SelectorsSlice } from "./slices/selectors-slice";
+import { createSectorsSlice, SectorsSlice } from "./slices/sectors-slice";
 
 export type EditorStoreSlices = 
 & ActivityBarSlice 
 & SidebarSlice
 & SelectedComponentSlice
-& SelectorsSlice;
-
+& SelectorsSlice
+& SectorsSlice;
 
 
 export function createEditorStore() {
@@ -18,6 +19,7 @@ export function createEditorStore() {
 		...createSidebarSlice(...args),
 		...createSelectedComponentSlice(...args),
 		...createSelectorsSlice(...args),
+		...createSectorsSlice(...args),
 	}))
 }
 

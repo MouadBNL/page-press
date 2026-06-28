@@ -13,7 +13,7 @@ export function EditorSidebarHeader() {
 		if (!selectedComponent) return {
 			icon: IconSquare,
 			label: 'No selected component.',
-			id: null,
+			id: 'None',
 		};
 		const data = getComponentMetadata(selectedComponent);
 		return {
@@ -34,7 +34,7 @@ export function EditorSidebarHeader() {
 
 				<div>
 					{defintion.id && (
-						<span className="text-sm text-muted-foreground/30">#{defintion.id}</span>
+						<span className="text-xs text-muted-foreground/30">#{defintion.id}</span>
 					)}
 				</div>
 			</header>

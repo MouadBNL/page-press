@@ -51,8 +51,6 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 			</span>
 
 
-
-
 			<Popover open={popoverOpen} onOpenChange={(next) => togglePopover(next)}>
 				<PopoverAnchor asChild>
 					<div
@@ -118,14 +116,6 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 					</CommandPrimitive>
 				</PopoverContent>
 			</Popover>
-
-			<ul>
-				{selectors.map(selector => (
-					<li key={selector.name}>{selector.name}</li>
-				))}
-			</ul>
-
-			<pre>{JSON.stringify(selectors, null, 2)}</pre>
 		</div>
 	)
 }

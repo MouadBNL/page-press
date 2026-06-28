@@ -3,12 +3,14 @@ import { BlockCommands } from "../modules/blocks";
 import { ComponentCommands } from "../modules/components";
 import { EditorContext } from "./types";
 import { SelectorCommands } from "../modules/selectors";
+import { SectorCommands } from "../modules/sectors";
 
 
 const commands = {
 	...ComponentCommands,
 	...BlockCommands,
 	...SelectorCommands,
+	...SectorCommands,
 }
 
 export type EditorCommandMap = {
