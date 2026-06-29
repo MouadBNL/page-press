@@ -1,18 +1,19 @@
 import { Sector } from "@pagepress/core";
 import { useEditorStore } from "../../../hooks/use-editor-store";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@pagepress/ui/components/accordion";
-import { ColorProperty, CompositeProperty, NumberProperty, SectorProperty, SelectProperty, SliderProperty, StackProperty } from "@pagepress/core/src/modules/sectors";
+import { ColorProperty, CompositeProperty, NumberProperty, PropertyQuery, SectorProperty, SelectProperty, SliderProperty, StackProperty } from "@pagepress/core/src/modules/sectors";
 import { ScrollArea } from "@pagepress/ui/components/scroll-area";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@pagepress/ui/components/select";
 import { NumberInput } from "@pagepress/ui/components/number-input";
 import { Slider } from "@pagepress/ui/components/slider";
 import { ColorInput } from "@pagepress/ui/components/color-input";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import { Button } from "@pagepress/ui/components/button";
 import { useEditorCmd } from "../../../hooks/use-editor-cmd";
 import { Input } from "@pagepress/ui/components/input";
 import { debounce } from "@pagepress/core/src/lib/debouce";
+import { useEditor } from "../../../hooks/use-editor";
 
 
 
@@ -51,7 +52,12 @@ function SectorItem({ sector }: { sector: Sector }) {
 			<AccordionContent>
 				<div className="flex flex-col gap-2">
 					{sector.properties.map(property => (
-						<PropertyItem key={property.id + sector.id} property={property} sectorId={sector.id} propertyId={property.getId()} />
+						<PropertyItem
+							key={property.id + sector.id}
+							property={property}
+							sectorId={sector.id}
+							propertyId={property.getId()}
+						/>
 					))}
 				</div>
 			</AccordionContent>
@@ -62,17 +68,14 @@ function SectorItem({ sector }: { sector: Sector }) {
 
 type PropertyItemProps = {
 	property: SectorProperty;
-	sectorId: string;
-	propertyId: string;
-	subPropertyId?: string;
-}
-function PropertyItem({ property, sectorId, propertyId, subPropertyId }: PropertyItemProps) {
+} & PropertyQuery;
+function PropertyItem({ property, ...query }: PropertyItemProps) {
 	"use no memo"
 
 	const { run } = useEditorCmd('style:property:set');
 
 	const onChange = (value: any) => {
-		run({ query: { sector: sectorId, propertyId, subPropertyId }, value }).catch(err => {
+		run({ query, value }).catch(err => {
 			console.error('onChange error', err);
 		});
 	};
@@ -89,9 +92,17 @@ function PropertyItem({ property, sectorId, propertyId, subPropertyId }: Propert
 			return <ColorPropertyItem property={property as ColorProperty} onChange={onChange} />;
 
 		case 'composite':
-			return <CompositePropertyItem property={property as CompositeProperty} sectorId={sectorId} propertyId={propertyId} />;
+			return <CompositePropertyItem
+				property={property as CompositeProperty}
+				sectorId={query.sectorId}
+				propertyId={query.propertyId}
+			/>;
 		case 'stack':
-			return <StackPropertyItem property={property as StackProperty} sectorId={sectorId} propertyId={propertyId} />;
+			return <StackPropertyItem
+				property={property as StackProperty}
+				sectorId={query.sectorId}
+				propertyId={query.propertyId}
+			/>;
 		default:
 			return <DebugPropertyItem property={property} />;
 	}
@@ -197,28 +208,97 @@ type StackPropertyItemProps = {
 }
 function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItemProps) {
 	"use no memo";
+
+	const [selectedLayerIdx, setSelectedLayerIdx] = useState<number | null>(null);
+	const { run: addLayer } = useEditorCmd('style:stack:add-layer');
+	const { run: removeLayer } = useEditorCmd('style:stack:remove-layer');
+	const { run: getSelectedLayer } = useEditorCmd('style:stack:get-selected-layer');
+	const { run: setSelectedLayer } = useEditorCmd('style:stack:set-selected-layer');
+
+	const { editor } = useEditor();
+	useEffect(() => {
+		const handle = debounce(() => {
+			console.log('handle');
+			getSelectedLayer({
+				query: { sectorId, propertyId }
+			}).then(layerIdx => {
+				console.log('handle', layerIdx);
+				setSelectedLayerIdx(layerIdx);
+			}).catch(err => {
+				console.error('useEffect error', err);
+			});
+		}, 100);
+		editor.on('sectors:updated', handle);
+		return () => {
+			editor.off('sectors:updated', handle);
+		}
+	}, [sectorId, propertyId]);
+
+	const handleAddLayer = () => {
+		addLayer({
+			query: { sectorId, propertyId }
+		}).catch((err: any) => {
+			console.error('handleAddLayer error', err);
+		});
+	};
+
+	const handleChangeLayer = (value: string) => {
+		console.log('handleChangeLayer', value);
+		setSelectedLayer({ query: { sectorId, propertyId }, layerIdx: Number(value) }).catch(err => {
+			console.error('handleChangeLayer error', err);
+		});
+	};
+
+	const handleRemoveLayer = (layerIdx: number) => {
+		removeLayer({
+			query: { sectorId, propertyId },
+			layerIdx
+		}).catch(err => {
+			console.error('handleRemoveLayer error', err);
+		});
+	};
 	return (
 		<div>
 			<div className="flex items-center gap-2 justify-between">
-				<label>{property.getLabel()}</label>
-				<Button variant="ghost" className="h-5">
+				<label>{property.getLabel()} / selected: {selectedLayerIdx}</label>
+				<Button variant="ghost" className="h-5" onClick={handleAddLayer}>
 					<IconPlus className="size-3" />
 				</Button>
 			</div>
 			<div className="flex flex-col gap-2 bg-muted p-1 rounded-md">
-				{property.getLayers().map(layer => (
-					<div className="">
-						{property.getProperties().map(property => (
-							<PropertyItem
-								key={property.id}
-								property={property}
-								sectorId={sectorId}
-								propertyId={propertyId}
-								subPropertyId={property.getId()}
-							/>
-						))}
-					</div>
-				))}
+				<Accordion type="single" value={selectedLayerIdx?.toString() || ''} onValueChange={handleChangeLayer} className="rounded-none border-none">
+					{property.getLayers().reverse().map(layer => (
+						<AccordionItem key={layer.getId()} value={layer.getIndex().toString()}>
+							<AccordionTrigger className="p-1 gap-2 flex items-center justify-between">
+								<div className="flex flex-1 w-full items-center justify-between">
+									<span>
+										{layer.getLabel()} / idx: {layer.getId()}
+									</span>
+									
+									<IconX className="size-3 cursor-pointer shrink-0 text-muted-foreground" 
+									onClick={(e) =>{
+										e.stopPropagation();
+										handleRemoveLayer(layer.getIndex());
+									}} />
+								</div>
+
+							</AccordionTrigger>
+							<AccordionContent>
+								{property.getProperties().map(property => (
+									<PropertyItem
+										key={property.id}
+										parentType="stack"
+										property={property}
+										sectorId={sectorId}
+										layerIdx={layer.getIndex()}
+										propertyId={propertyId}
+										subPropertyId={property.getId()}
+									/>
+								))}
+							</AccordionContent>
+						</AccordionItem>
+					))}
+				</Accordion>
 			</div>
 		</div>
 	)

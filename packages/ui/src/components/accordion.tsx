@@ -56,27 +56,48 @@ function AccordionTrigger({
   )
 }
 
-function AccordionContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+const AccordionContent = React.forwardRef<
+  React.ComponentRef<typeof AccordionPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+>(({ className, children, ...props }, ref) => {
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const height = el.scrollHeight;
+      // Manually update the CSS variable used by Radix animations
+      el.style.setProperty("--radix-accordion-content-height", `${height}px`);
+    });
+
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
   return (
     <AccordionPrimitive.Content
+      ref={ref}
       data-slot="accordion-content"
-      className="overflow-hidden px-2 text-xs/relaxed data-open:animate-accordion-down data-closed:animate-accordion-up"
+      className={cn(
+        "overflow-hidden px-2 text-xs/relaxed transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+        className
+      )}
       {...props}
     >
       <div
+        ref={contentRef}
         className={cn(
-          "h-(--radix-accordion-content-height) pt-0 pb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+          "pb-4 pt-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
           className
         )}
       >
         {children}
       </div>
     </AccordionPrimitive.Content>
-  )
-}
+  );
+});
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }

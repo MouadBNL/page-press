@@ -20,8 +20,26 @@ export type StackProperty = PropertyStack;
 
 
 
-export type PropertyQuery = {
-	sector: string;
+
+export type PropertyPrimitiveQuery = {
+	sectorId: string;
 	propertyId: string;
-	subPropertyId?: string;
-};
+}
+
+export type PropertyInCompositeQuery = {
+	parentType: 'composite';
+	sectorId: string;
+	propertyId: string;
+	subPropertyId: string;
+}
+
+export type PropertyInStackQuery = {
+	parentType: 'stack';
+	sectorId: string;
+	propertyId: string;
+	layerIdx: number;
+	subPropertyId: string;
+}
+
+export type PropertyQuery = PropertyPrimitiveQuery | PropertyInCompositeQuery | PropertyInStackQuery;
+	
