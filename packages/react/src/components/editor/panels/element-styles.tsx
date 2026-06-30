@@ -21,6 +21,8 @@ import { useEditor } from "../../../hooks/use-editor";
 export function EditorElementStylesPanel() {
 	const sectors = useEditorStore(s => s.sectors);
 
+	console.log('sectors', sectors);
+
 	return (
 		<article className="flex-1 h-full overflow-hidden">
 			<ScrollArea className="flex-1 h-full overflow-auto">
@@ -243,6 +245,7 @@ function CompositePropertyItem({ property, sectorId, propertyId }: CompositeProp
 			<div className="flex flex-col gap-2 bg-muted px-2 py-3 rounded-md">
 				{property.getProperties().map(property => (
 					<PropertyItem
+						parentType="composite"
 						key={property.id}
 						property={property}
 						sectorId={sectorId}
@@ -330,12 +333,12 @@ function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItem
 									<span>
 										{layer.getLabel()} / idx: {layer.getId()}
 									</span>
-									
-									<IconX className="size-3 cursor-pointer shrink-0 text-muted-foreground" 
-									onClick={(e) =>{
-										e.stopPropagation();
-										handleRemoveLayer(layer.getIndex());
-									}} />
+
+									<IconX className="size-3 cursor-pointer shrink-0 text-muted-foreground"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleRemoveLayer(layer.getIndex());
+										}} />
 								</div>
 
 							</AccordionTrigger>

@@ -1,4 +1,4 @@
-import { PropertyInCompositeQuery, PropertyInStackQuery, PropertyPrimitiveQuery, PropertyQuery, StackProperty } from "./type";
+import { CompositeProperty, PropertyInCompositeQuery, PropertyInStackQuery, PropertyPrimitiveQuery, PropertyQuery, StackProperty } from "./type";
 import { Editor } from "grapesjs";
 
 
@@ -30,15 +30,23 @@ export function findPrimitiveProperty(editor: Editor, query: PropertyPrimitiveQu
 
 export function findPropertyInComposite(editor: Editor, query: PropertyInCompositeQuery) {
 	const sector = editor.StyleManager.getSector(query.sectorId);
+	console.log('[findPropertyInComposite] Sector', sector);
 	if (!sector) {
 		return null;
 	}
 
+
 	const property = sector.getProperty(query.propertyId);
+	console.log('[findPropertyInComposite] Property', property);
 	if (!property || property.getType() !== 'composite') {
 		return null;
 	}
-	return property;
+	const subProperty = (property as CompositeProperty).getProperties().find(p => p.getId() === query.subPropertyId);
+	console.log('[findPropertyInComposite] SubProperty', subProperty);
+	if (!subProperty) {
+		return null;
+	}
+	return subProperty;
 }
 
 export function findPropertyInStack(editor: Editor, query: PropertyInStackQuery) {
