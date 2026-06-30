@@ -4,6 +4,7 @@ import { ComponentCommands } from "../modules/components";
 import { EditorContext } from "./types";
 import { SelectorCommands } from "../modules/selectors";
 import { SectorCommands } from "../modules/sectors";
+import { LayerCommands } from "../modules/layers";
 
 
 const commands = {
@@ -11,6 +12,7 @@ const commands = {
 	...BlockCommands,
 	...SelectorCommands,
 	...SectorCommands,
+	...LayerCommands,
 }
 
 export type EditorCommandMap = {

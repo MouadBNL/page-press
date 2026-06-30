@@ -1,7 +1,7 @@
 import { DEFAULT_BLOCKS } from "@pagepress/core"
 import { Editor } from "@pagepress/react"
 import { Button } from "@pagepress/ui/components/button"
-import { IconBox, IconComponents } from "@tabler/icons-react"
+import { IconBox, IconComponents, IconListTree } from "@tabler/icons-react"
 
 function App() {
 
@@ -16,12 +16,16 @@ function App() {
         </header>
         <Editor.Layout>
           <Editor.ActivityBar side="left" defaultSize="15%">
+            <Editor.ActivityBarItem id="layers" label="Navigator" icon={<IconListTree className="size-5" />}>
+              <Editor.Panels.Layers />
+            </Editor.ActivityBarItem>
             <Editor.ActivityBarItem id="blocks" label="Blocks" icon={<IconBox className="size-5" />}>
               <Editor.Panels.Blocks />
             </Editor.ActivityBarItem>
             <Editor.ActivityBarItem id="components" label="Components" icon={<IconComponents className="size-5" />}>
               Components
             </Editor.ActivityBarItem>
+
           </Editor.ActivityBar>
           <Editor.Canvas className="flex-1 flex flex-col h-full overflow-hidden" />
           <Editor.Sidebar defaultSize="20%">

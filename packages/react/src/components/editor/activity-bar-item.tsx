@@ -8,5 +8,5 @@ type Props = React.ComponentProps<"div"> & {
 };
 export function ActivityBarItem({id, label, icon, className, ...props}: Props) {
 
-	return <div className={cn("flex-1 lex-1 min-h-0 overflow-auto flex flex-col")} {...props} id={id}/>
+	return <div className={cn("flex-1 lex-1 min-h-0 overflow-hidden flex flex-col h-full")} {...props} id={id}/>
 }

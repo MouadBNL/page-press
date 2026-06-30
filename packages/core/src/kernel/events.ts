@@ -4,12 +4,15 @@ import { ComponentEvents } from "../modules/components";
 import { EditorContext } from "./types";
 import { SelectorEvents } from "../modules/selectors";
 import { registerSectorEvents, SectorEvents } from "../modules/sectors/events";
+import { LayerEvents } from "../modules/layers/events";
+import { registerLayerEvents } from "../modules/layers/events";
 
 export type EditorEvents = &
 	ComponentEvents &
 	BlockEvents &
 	SelectorEvents  &
-	SectorEvents;
+	SectorEvents &
+	LayerEvents;
 
 export type EditorEventBus = EventBus<EditorEvents>;
 
@@ -27,4 +30,5 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 	bus.emit('sectors:ready', undefined);
 
 	registerSectorEvents(bus, context);
+	registerLayerEvents(bus, context);
 }

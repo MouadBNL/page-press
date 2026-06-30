@@ -4,13 +4,16 @@ import { createSidebarSlice, SidebarSlice } from "./slices/sidebar-slice";
 import { createSelectedComponentSlice, SelectedComponentSlice } from "./slices/selected-component-slice";
 import { createSelectorsSlice, SelectorsSlice } from "./slices/selectors-slice";
 import { createSectorsSlice, SectorsSlice } from "./slices/sectors-slice";
+import { createLayersSlice, LayersSlice } from "./slices/layers-slice";
 
 export type EditorStoreSlices = 
 & ActivityBarSlice 
 & SidebarSlice
 & SelectedComponentSlice
 & SelectorsSlice
-& SectorsSlice;
+& SectorsSlice
+& LayersSlice;
+
 
 
 export function createEditorStore() {
@@ -20,6 +23,7 @@ export function createEditorStore() {
 		...createSelectedComponentSlice(...args),
 		...createSelectorsSlice(...args),
 		...createSectorsSlice(...args),
+		...createLayersSlice(...args),
 	}))
 }
 

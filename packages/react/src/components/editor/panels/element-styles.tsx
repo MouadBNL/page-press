@@ -12,8 +12,8 @@ import { IconPlus, IconX } from "@tabler/icons-react";
 import { Button } from "@pagepress/ui/components/button";
 import { useEditorCmd } from "../../../hooks/use-editor-cmd";
 import { Input } from "@pagepress/ui/components/input";
-import { debounce } from "@pagepress/core/src/lib/debouce";
 import { useEditor } from "../../../hooks/use-editor";
+import { debounce } from "../../../lib/debounce";
 
 
 
