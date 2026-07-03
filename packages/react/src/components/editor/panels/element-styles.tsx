@@ -28,7 +28,11 @@ export function EditorElementStylesPanel() {
 			<ScrollArea className="flex-1 h-full overflow-auto">
 				<SectorsList>
 					{sectors.map(sector => (
-						<SectorItem key={sector.id} sector={sector} />
+						<>
+							{sector.visible && (
+								<SectorItem key={sector.id} sector={sector} />
+							)}
+						</>
 					))}
 				</SectorsList>
 			</ScrollArea>
@@ -81,6 +85,10 @@ function PropertyItem({ property, ...query }: PropertyItemProps) {
 			console.error('onChange error', err);
 		});
 	};
+
+	if (!property.isVisible()) {
+		return null;
+	}
 
 	switch (property.getType()) {
 		case 'select':

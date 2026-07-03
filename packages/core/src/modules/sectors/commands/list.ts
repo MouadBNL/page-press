@@ -18,6 +18,7 @@ export class SectorListCommand extends CommandHandler<void, Sector[]> {
 			id: sector.getId(),
 			name: sector.getName(),
 			properties: sector.getProperties(),
+			visible: sector.isVisible(),
 		} satisfies Sector));
 	}
 }

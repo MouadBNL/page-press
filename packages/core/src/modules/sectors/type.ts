@@ -5,6 +5,7 @@ import { Property, PropertyComposite, PropertyNumber, PropertyPropsCustom, Prope
 export type Sector = {
 	id: string;
 	name: string;
+	visible: boolean;
 	properties: SectorProperty[];
 };
 
