@@ -71,7 +71,7 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 								if (e.key === 'Enter') {
 									handleAddSelected();
 								}
-								if(e.key == 'Backspace') {
+								if(e.key == 'Backspace' && (e.target as HTMLInputElement).value?.length === 0) {
 									handleRemoveSelected(selectors[selectors.length - 1]);
 								}
 							}}
