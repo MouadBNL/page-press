@@ -2,7 +2,7 @@
 import { useEditorStore } from "../../../hooks/use-editor-store";
 import { cn } from "@pagepress/ui/lib/utils";
 import { SelectorBadge, SelectorStyleBadge } from "../../ui/selector-badge";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CommandGroup, CommandItem, CommandList, CommandPrimitive } from "@pagepress/ui/components/command";
 import { Popover, PopoverAnchor, PopoverContent } from "@pagepress/ui/components/popover";
 import { useEditor } from "../../../hooks/use-editor";
@@ -43,6 +43,16 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 		editor.run('selectors:remove-selected', { name: selector.name });
 	}, []);
 
+	const handleDisableSelected = useCallback((selector: Selector) => {
+		console.log('handleDisableSelected', selector);
+		editor.run('selectors:disable', { name: selector.name });
+	}, []);
+
+	const handleEnableSelected = useCallback((selector: Selector) => {
+		console.log('handleEnableSelected', selector);
+		editor.run('selectors:enable', { name: selector.name });
+	}, []);
+
 
 	return (
 		<div className={cn("p-2", className)} {...props}>
@@ -59,7 +69,13 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 					>
 						<SelectorStyleBadge />
 						{selectors.map(selector => (
-							<SelectorBadge key={selector.name} selector={selector} onRemove={() => handleRemoveSelected(selector)} />
+							<SelectorBadge 
+							key={selector.name} 
+							selector={selector} 
+							onRemove={() => handleRemoveSelected(selector)} 
+							onDisable={() => handleDisableSelected(selector)} 
+							onEnable={() => handleEnableSelected(selector)} 
+							/>
 						))}
 						<input type="text" ref={selectorInputRef}
 							value={query}
@@ -116,7 +132,36 @@ export function EditorElementSelectorsPanel({ className, ...props }: Props) {
 					</CommandPrimitive>
 				</PopoverContent>
 			</Popover>
+
+
+			<SelectorToStyle />
 		</div>
 	)
 }
 
+
+
+function SelectorToStyle() {
+
+	const [selector, setSelector] = useState<string | null>(null);
+	const {editor} = useEditor();
+	useEffect(() => {
+		const handle = async () => {
+			const selector = await editor.run('selectors:get-selector-to-style', undefined);
+			setSelector(selector);
+		}
+		handle();
+		editor.on('selectors:updated', handle);
+		editor.on('components:selected', handle);
+		return () => {
+			editor.off('selectors:updated', handle);
+			editor.off('components:selected', handle);
+		}
+	}, []);
+	return (
+		<div className="mt-2">
+			<p className="text-sm text-muted-foreground -mb-1.5">Target Selector:</p>
+			<span className="text-xs text-foreground font-bold">{selector ?? 'NO'}</span>
+		</div>
+	)
+}

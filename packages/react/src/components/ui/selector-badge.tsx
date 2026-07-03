@@ -1,7 +1,7 @@
 import { Selector } from "@pagepress/core";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@pagepress/ui/lib/utils";
-import { IconBackspace, IconChevronDown, IconCodeAsterisk } from "@tabler/icons-react";
+import { IconBackspace, IconChevronDown, IconCircleCheck, IconCircleDotted, IconCodeAsterisk } from "@tabler/icons-react";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@pagepress/ui/components/dropdown-menu";
 
 
@@ -26,12 +26,20 @@ const selectorBadgeVariants = cva(
 export type SelectorBadgeProps = {
 	selector: Selector;
 	onRemove?: () => void;
+	onDisable?: () => void;
+	onEnable?: () => void;
 }
-export function SelectorBadge({ selector, onRemove }: SelectorBadgeProps) {
+export function SelectorBadge({ selector, onRemove, onDisable, onEnable }: SelectorBadgeProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<SelectorBadgeContainer type={selector.type} active={selector.active} className="group relative">
+
+					{selector.active ? (
+						<IconCircleCheck className="size-3.5" />
+					) : (
+						<IconCircleDotted className="size-3.5" />
+					)}
 					<span className="text-xs">
 						{selector.label}
 					</span>
@@ -42,6 +50,17 @@ export function SelectorBadge({ selector, onRemove }: SelectorBadgeProps) {
 				</SelectorBadgeContainer>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
+				{selector.active ? (
+					<DropdownMenuItem onSelect={onDisable}>
+						<IconCircleDotted className="size-3.5" />
+						Disable
+					</DropdownMenuItem>
+				) : (
+					<DropdownMenuItem onSelect={onEnable}>	
+						<IconCircleCheck className="size-3.5" />
+						Enable
+					</DropdownMenuItem>
+				)}
 				<DropdownMenuItem onSelect={onRemove}>
 					<IconBackspace />
 						Remove

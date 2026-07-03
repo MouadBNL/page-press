@@ -42,7 +42,7 @@ export const defaultOptions: EditorConfig = {
     trackSelection: false
   },
   selectorManager: {
-    componentFirst: true
+    componentFirst: false
   },
   components: `
         <div style="padding: 25px">Element A</div>
