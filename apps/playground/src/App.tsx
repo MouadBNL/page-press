@@ -36,7 +36,7 @@ function App() {
                 <Editor.Panels.ElementStyles />
               </Editor.SidebarTabItem>
               <Editor.SidebarTabItem label="Settings" id="element-settings">
-                <Editor.Panels.ElementSettings />
+                <Editor.Panels.ElementProperties />
               </Editor.SidebarTabItem>
             </Editor.SidebarTabs>
           </Editor.Sidebar>

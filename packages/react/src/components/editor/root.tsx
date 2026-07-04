@@ -9,6 +9,7 @@ import { useEditorSelectedSync } from "../../hooks/use-editor-selected-sync";
 import { useEditorSelectorsSync } from "../../hooks/use-editor-selectors-sync";
 import { useEditorSectorsSync } from "../../hooks/use-editor-sectors-sync";
 import { useEditorLayersSync } from "../../hooks/use-editor-layers-sync";
+import { useEditorPropertiesSync } from "../../hooks/use-editor-properties-sync";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
@@ -76,6 +77,7 @@ function EditorSync() {
 	useEditorSelectorsSync();
 	useEditorSectorsSync();
 	useEditorLayersSync();
+	useEditorPropertiesSync();
 
 	return  null;
 }

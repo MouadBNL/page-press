@@ -5,6 +5,7 @@ import { createSelectedComponentSlice, SelectedComponentSlice } from "./slices/s
 import { createSelectorsSlice, SelectorsSlice } from "./slices/selectors-slice";
 import { createSectorsSlice, SectorsSlice } from "./slices/sectors-slice";
 import { createLayersSlice, LayersSlice } from "./slices/layers-slice";
+import { createComponentPropertiesSlice, ComponentPropertySlice } from "./slices/component-properties-slice";
 
 export type EditorStoreSlices = 
 & ActivityBarSlice 
@@ -12,7 +13,8 @@ export type EditorStoreSlices =
 & SelectedComponentSlice
 & SelectorsSlice
 & SectorsSlice
-& LayersSlice;
+& LayersSlice
+& ComponentPropertySlice;
 
 
 
@@ -24,6 +26,7 @@ export function createEditorStore() {
 		...createSelectorsSlice(...args),
 		...createSectorsSlice(...args),
 		...createLayersSlice(...args),
+		...createComponentPropertiesSlice(...args),
 	}))
 }
 

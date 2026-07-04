@@ -5,6 +5,7 @@ import { EditorContext } from "./types";
 import { SelectorCommands } from "../modules/selectors";
 import { SectorCommands } from "../modules/sectors";
 import { LayerCommands } from "../modules/layers";
+import { PropertiesCommands } from "../modules/properties";
 
 
 const commands = {
@@ -13,6 +14,7 @@ const commands = {
 	...SelectorCommands,
 	...SectorCommands,
 	...LayerCommands,
+	...PropertiesCommands,
 }
 
 export type EditorCommandMap = {

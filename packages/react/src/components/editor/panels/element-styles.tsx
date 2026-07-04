@@ -3,9 +3,8 @@ import { useEditorStore } from "../../../hooks/use-editor-store";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@pagepress/ui/components/accordion";
 import { ColorProperty, CompositeProperty, NumberProperty, PropertyQuery, SectorProperty, SelectProperty, SliderProperty, StackProperty } from "@pagepress/core/src/modules/sectors";
 import { ScrollArea } from "@pagepress/ui/components/scroll-area";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@pagepress/ui/components/select";
-import { NumberInput } from "@pagepress/ui/components/number-input";
 import { Slider } from "@pagepress/ui/components/slider";
 import { ColorInput } from "@pagepress/ui/components/color-input";
 import { IconPlus, IconX } from "@tabler/icons-react";
@@ -14,6 +13,7 @@ import { useEditorCmd } from "../../../hooks/use-editor-cmd";
 import { Input } from "@pagepress/ui/components/input";
 import { useEditor } from "../../../hooks/use-editor";
 import { debounce } from "../../../lib/debounce";
+import { useLocalEcho } from "../../../hooks/use-local-echo";
 
 
 
@@ -140,49 +140,6 @@ function SelectPropertyItem({ property, onChange }: { property: SelectProperty, 
 }
 
 
-/**
- * Bridges a fully-controlled input to an async command bus without keystroke lag.
- *
- * Local state is the source of truth ONLY while the field is focused, so fast
- * typing is never clobbered by a stale `externalValue` arriving late from the
- * store round-trip. While unfocused, `externalValue` always wins. The outgoing
- * command is debounced, but blur flushes immediately so no edit is ever lost.
- */
-function useLocalEcho(externalValue: any, onChange: (value: any) => void, delay = 100) {
-	const [value, setValue] = useState(externalValue);
-	const focusedRef = useRef(false);
-
-	// Keep the latest onChange so the debounced fn never calls a stale closure.
-	const onChangeRef = useRef(onChange);
-	onChangeRef.current = onChange;
-
-	// Stable debounced command, created once per field instance.
-	const debouncedRef = useRef<((value: any) => void) | null>(null);
-	if (!debouncedRef.current) {
-		debouncedRef.current = debounce((v: any) => onChangeRef.current(v), delay);
-	}
-
-	// Adopt external changes only when the user isn't actively typing.
-	useEffect(() => {
-		if (!focusedRef.current) setValue(externalValue);
-	}, [externalValue]);
-
-	return {
-		value,
-		onChange: (v: any) => {
-			setValue(v);
-			debouncedRef.current!(v);
-		},
-		onFocus: () => {
-			focusedRef.current = true;
-		},
-		onBlur: () => {
-			focusedRef.current = false;
-			// Flush the in-flight edit immediately so the final keystroke commits.
-			onChangeRef.current(value);
-		},
-	};
-}
 
 function NumberPropertyItem({ property, onChange }: { property: NumberProperty, onChange: (value: any) => void }) {
 	"use no memo";
