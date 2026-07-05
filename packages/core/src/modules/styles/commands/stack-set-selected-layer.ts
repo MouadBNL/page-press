@@ -1,11 +1,11 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
 import { findPrimitiveProperty } from "../lib";
-import { PropertyPrimitiveQuery, StackProperty } from "../type";
+import { StylePropertyPrimitiveQuery, StackStyleProperty } from "../type";
 
 
 type Payload = {
-	query: PropertyPrimitiveQuery;
+	query: StylePropertyPrimitiveQuery;
 	layerIdx: number;
 }
 
@@ -23,12 +23,12 @@ export class StackSetSelectedLayerCommand extends CommandHandler<Payload, boolea
 		if (!property) {
 			return Promise.reject(false);
 		}
-		const layer = (property as StackProperty).getLayer(payload.layerIdx);
+		const layer = (property as StackStyleProperty).getLayer(payload.layerIdx);
 		if (!layer) {
 			return Promise.reject(false);
 		}
 		layer.select();
-		this._context.emit('sectors:updated', []);
+		this._context.emit('style:sectors:updated', []);
 		return Promise.resolve(true);
 	}
 }	

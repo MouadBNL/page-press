@@ -20,7 +20,6 @@ export type EditorOptions = {
 	blocks?: BlockDefinition[],
 }
 
-export type Component = GjsComponent;
 
 
 export type EditorCommandRegistry = Record<string, (ctx: EditorContext) => CommandHandler<any, any>>;

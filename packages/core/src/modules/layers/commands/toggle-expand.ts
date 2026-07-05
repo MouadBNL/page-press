@@ -1,9 +1,10 @@
-import { Component, EditorContext } from "../../../kernel/types";
+import { EditorContext } from "../../../kernel/types";
+import { EditorElement } from "../../elements";
 import { CommandHandler } from "../../../lib/command-bus";
 
 
 type Payload = {
-	component: Component;
+	element: EditorElement;
 	open: boolean;
 }
 export class LayerToggleExpandCommand extends CommandHandler<Payload, void> {
@@ -16,7 +17,7 @@ export class LayerToggleExpandCommand extends CommandHandler<Payload, void> {
 
 	async handle(payload: Payload): Promise<void> {
 		const editor = this._context.gjseditor;
-		editor.Layers.setLayerData(payload.component, {
+		editor.Layers.setLayerData(payload.element, {
 			open: payload.open,
 		});
 		return Promise.resolve();

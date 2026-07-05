@@ -1,12 +1,12 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
-import { PropertyQuery } from "../type";
+import { StylePropertyQuery } from "../type";
 import { findProperty } from "../lib";
 
 
 
 type Payload = {
-	query: PropertyQuery;
+	query: StylePropertyQuery;
 	value: any;
 }
 

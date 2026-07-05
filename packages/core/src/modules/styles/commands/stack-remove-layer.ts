@@ -1,11 +1,11 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
 import { findPrimitiveProperty } from "../lib";
-import { PropertyPrimitiveQuery, StackProperty } from "../type";
+import { StylePropertyPrimitiveQuery, StackStyleProperty } from "../type";
 
 
 type Payload = {
-	query: PropertyPrimitiveQuery;
+	query: StylePropertyPrimitiveQuery;
 	layerIdx: number;
 }
 export class StackRemoveLayerCommand extends CommandHandler<Payload, void> {
@@ -22,12 +22,12 @@ export class StackRemoveLayerCommand extends CommandHandler<Payload, void> {
 		if (!property) {
 			return Promise.reject();
 		}
-		const layer = (property as StackProperty).getLayer(payload.layerIdx);
+		const layer = (property as StackStyleProperty).getLayer(payload.layerIdx);
 		if (!layer) {
 			return Promise.reject();
 		}
-		(property as StackProperty).removeLayer(layer);
-		this._context.emit('sectors:updated', []);
+		(property as StackStyleProperty).removeLayer(layer);
+		this._context.emit('style:sectors:updated', []);
 		return Promise.resolve();
 	}
 }

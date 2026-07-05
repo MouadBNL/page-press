@@ -1,4 +1,4 @@
 
 
-export type { ComponentProperty } from "./types";
+export type { EditorProperty } from "./types";
 export { PropertiesCommands } from "./commands";

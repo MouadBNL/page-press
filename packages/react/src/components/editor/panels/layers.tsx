@@ -34,14 +34,14 @@ export function EditorLayersPanel() {
 
 function LayerItem({ layer }: { layer: LayerTreeNode }) {
 	const hoverCmd = useEditorCmd('layers:hover');
-	const selectCmd = useEditorCmd('components:select');
+	const selectCmd = useEditorCmd('elements:select');
 	const toggleVisibilityCmd = useEditorCmd('layers:toggle-visibility');
 	const toggleExpandCmd = useEditorCmd('layers:toggle-expand');
 	const toggleLockCmd = useEditorCmd('layers:toggle-lock');
 
 	const handleHover = (hovered: boolean) => {
 		hoverCmd.run({
-			component: layer.component,
+			element: layer.element,
 			hovered,
 		});
 	};
@@ -49,39 +49,39 @@ function LayerItem({ layer }: { layer: LayerTreeNode }) {
 
 	const handleSelect = () => {
 		selectCmd.run({
-			component: layer.component,
+			element: layer.element,
 		});
 	};
 
 	const handleToggleVisibility = (visible: boolean) => {
 		toggleVisibilityCmd.run({
-			component: layer.component,
+			element: layer.element,
 			visible,
 		});
 	};
 
 	const handleToggleExpand = (open: boolean) => {
 		toggleExpandCmd.run({
-			component: layer.component,
+			element: layer.element,
 			open,
 		});
 	};
 
 	const handleToggleLock = (locked: boolean) => {
 		toggleLockCmd.run({
-			component: layer.component,
+			element: layer.element,
 			locked,
 		});
 	};
 
 	const defintion = useMemo(() => {
-		const data = getComponentMetadata(layer.component);
+		const data = getComponentMetadata(layer.element);
 		return {
 			icon: data.icon,
 			label: data.label,
-			id: layer.component.getId()
+			id: layer.element.getId()
 		}
-	}, [layer.component]);
+	}, [layer.element]);
 
 
 

@@ -1,9 +1,9 @@
-import { CompositeProperty, PropertyInCompositeQuery, PropertyInStackQuery, PropertyPrimitiveQuery, PropertyQuery, StackProperty } from "./type";
+import { CompositeStyleProperty, StylePropertyInCompositeQuery, StylePropertyInStackQuery, StylePropertyPrimitiveQuery, StylePropertyQuery, StackStyleProperty } from "./type";
 import { Editor } from "grapesjs";
 
 
 
-export function findProperty(editor: Editor, query: PropertyQuery) {
+export function findProperty(editor: Editor, query: StylePropertyQuery) {
 	if (!("parentType" in query)) {
 		return findPrimitiveProperty(editor, query);
 	}
@@ -18,7 +18,7 @@ export function findProperty(editor: Editor, query: PropertyQuery) {
 }
 
 
-export function findPrimitiveProperty(editor: Editor, query: PropertyPrimitiveQuery) {
+export function findPrimitiveProperty(editor: Editor, query: StylePropertyPrimitiveQuery) {
 	const sector = editor.StyleManager.getSector(query.sectorId);
 	if (!sector) {
 		return null;
@@ -28,7 +28,7 @@ export function findPrimitiveProperty(editor: Editor, query: PropertyPrimitiveQu
 	return property;
 }
 
-export function findPropertyInComposite(editor: Editor, query: PropertyInCompositeQuery) {
+export function findPropertyInComposite(editor: Editor, query: StylePropertyInCompositeQuery) {
 	const sector = editor.StyleManager.getSector(query.sectorId);
 	console.log('[findPropertyInComposite] Sector', sector);
 	if (!sector) {
@@ -41,7 +41,7 @@ export function findPropertyInComposite(editor: Editor, query: PropertyInComposi
 	if (!property || property.getType() !== 'composite') {
 		return null;
 	}
-	const subProperty = (property as CompositeProperty).getProperties().find(p => p.getId() === query.subPropertyId);
+	const subProperty = (property as CompositeStyleProperty).getProperties().find(p => p.getId() === query.subPropertyId);
 	console.log('[findPropertyInComposite] SubProperty', subProperty);
 	if (!subProperty) {
 		return null;
@@ -49,13 +49,13 @@ export function findPropertyInComposite(editor: Editor, query: PropertyInComposi
 	return subProperty;
 }
 
-export function findPropertyInStack(editor: Editor, query: PropertyInStackQuery) {
+export function findPropertyInStack(editor: Editor, query: StylePropertyInStackQuery) {
 	const sector = editor.StyleManager.getSector(query.sectorId);
 	if (!sector) {
 		return null;
 	}
 
-	const property: StackProperty = sector.getProperty(query.propertyId) as StackProperty;
+	const property: StackStyleProperty = sector.getProperty(query.propertyId) as StackStyleProperty;
 	if (!property || property.getType() !== 'stack') {
 		return null;
 	}

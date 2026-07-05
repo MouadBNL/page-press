@@ -1,9 +1,9 @@
-import { Component } from "grapesjs";
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
+import { EditorElement } from "../../elements";
 
 type Payload = {
-	component: Component;
+	element: EditorElement;
 	hovered: boolean;
 }
 export class LayerHoverCommand extends CommandHandler<Payload, void> {
@@ -16,7 +16,7 @@ export class LayerHoverCommand extends CommandHandler<Payload, void> {
 
 	async handle(payload: Payload): Promise<void> {
 		const editor = this._context.gjseditor;
-		editor.Layers.setLayerData(payload.component, {
+		editor.Layers.setLayerData(payload.element, {
 			hovered: payload.hovered,
 		});
 		return Promise.resolve();

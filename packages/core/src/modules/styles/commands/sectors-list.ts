@@ -1,9 +1,9 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
-import { Sector } from "../type";
+import { EditorStyleSector } from "../type";
 import { Sector as GjsSector } from "grapesjs";
 
-export class SectorListCommand extends CommandHandler<void, Sector[]> {
+export class SectorListCommand extends CommandHandler<void, EditorStyleSector[]> {
 	private readonly _context: EditorContext;
 
 	constructor(context: EditorContext) {
@@ -11,7 +11,7 @@ export class SectorListCommand extends CommandHandler<void, Sector[]> {
 		this._context = context;
 	}
 
-	async handle(): Promise<Sector[]> {
+	async handle(): Promise<EditorStyleSector[]> {
 		const editor = this._context.gjseditor;
 		const manager = editor.StyleManager;
 		return (manager.getSectors() ?? []).map((sector: GjsSector) => ({
@@ -19,6 +19,6 @@ export class SectorListCommand extends CommandHandler<void, Sector[]> {
 			name: sector.getName(),
 			properties: sector.getProperties(),
 			visible: sector.isVisible(),
-		} satisfies Sector));
+		} satisfies EditorStyleSector));
 	}
 }

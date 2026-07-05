@@ -1,15 +1,15 @@
 import { CommandBus, CommandHandler } from "../lib/command-bus";
 import { BlockCommands } from "../modules/blocks";
-import { ComponentCommands } from "../modules/components";
+import { ElementCommands } from "../modules/elements";
 import { EditorContext } from "./types";
 import { SelectorCommands } from "../modules/selectors";
-import { SectorCommands } from "../modules/sectors";
+import { SectorCommands } from "../modules/styles";
 import { LayerCommands } from "../modules/layers";
 import { PropertiesCommands } from "../modules/properties";
 
 
 const commands = {
-	...ComponentCommands,
+	...ElementCommands,
 	...BlockCommands,
 	...SelectorCommands,
 	...SectorCommands,

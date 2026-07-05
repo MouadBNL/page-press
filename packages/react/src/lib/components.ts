@@ -1,9 +1,9 @@
-import { Component } from "@pagepress/core/src/kernel/types";
+import { EditorElement } from "@pagepress/core";
 import { IconBoxModel2, IconComponents, IconH1, IconH2, IconH3, IconH4, IconH5, IconH6, IconHeading, IconLetterP, IconLetterT, IconLink, IconPhoto, IconSection, TablerIcon } from "@tabler/icons-react";
 
 
 
-export function getComponentMetadata(component: Component): { icon: TablerIcon, label: string } {
+export function getComponentMetadata(component: EditorElement): { icon: TablerIcon, label: string } {
 
 	if (isHeading(component)) {
 		switch (component.tagName?.toLowerCase()) {
@@ -44,27 +44,27 @@ export function getComponentMetadata(component: Component): { icon: TablerIcon, 
 }
 
 
-export function isMatchingTags(component: Component, tags: string[]) {
+export function isMatchingTags(component: EditorElement, tags: string[]) {
 	return tags.includes(component.tagName?.toLowerCase?.() ?? "");
 }
 
-export function isHeading(component: Component): boolean {
+export function isHeading(component: EditorElement): boolean {
 	return isMatchingTags(component, [
 		"h1", "h2", "h3", "h4", "h5", "h6"
 	])
 }
 
-export function isSection(component: Component): boolean {
+export function isSection(component: EditorElement): boolean {
 	return isMatchingTags(component, ['section']);
 }
 
-export function isContainer(component: Component): boolean {
+export function isContainer(component: EditorElement): boolean {
 	return isMatchingTags(component, [
 		"div", "section", "article", "nav", "aside", "main", "header", "footer",
 	])
 }
 
-export function isPatagraph(component: Component): boolean {
+export function isPatagraph(component: EditorElement): boolean {
 	return isMatchingTags(component, [
 		"h1", "h2", "h3", "h4", "h5", "h6",
 		"p", "li", "td", "th", "caption", "label", "legend",
@@ -73,7 +73,7 @@ export function isPatagraph(component: Component): boolean {
 	])
 }
 
-export function isText(component: Component): boolean {
+export function isText(component: EditorElement): boolean {
 	return isMatchingTags(component, [
 		"h1", "h2", "h3", "h4", "h5", "h6",
 		"p", "li", "td", "th", "caption", "label", "legend",
@@ -83,17 +83,17 @@ export function isText(component: Component): boolean {
 }
 
 
-export function isImage(component: Component): boolean {
+export function isImage(component: EditorElement): boolean {
 	return isMatchingTags(component, ['img']);
 }
 
 
-export function isLink(component: Component): boolean {
+export function isLink(component: EditorElement): boolean {
 	return isMatchingTags(component, ['a']);
 }
 
 
-export function isButton(component: Component): boolean {
+export function isButton(component: EditorElement): boolean {
 	return isMatchingTags(component, ['button']);
 }
 

@@ -12,15 +12,15 @@ export function useEditorPropertiesSync() {
 
 	useEffect(() => {
 		const handle = debounce(() => {
-			editor.run('properties:get-selected').then(properties => {
+			editor.run('properties:selected').then(properties => {
 				console.log('useEditorPropertiesSync handle', properties);
 				setProperties(properties);
 			});
 		}, 100);
 		handle();
-		editor.on('components:selected', handle);
+		editor.on('elements:selected', handle);
 		return () => {
-			editor.off('components:selected', handle);
+			editor.off('elements:selected', handle);
 		}
 	}, []);
 }

@@ -1,12 +1,12 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
 import { findProperty } from "../lib";
-import { PropertyQuery, StackProperty } from "../type";
+import { StylePropertyQuery, StackStyleProperty } from "../type";
 
 
 
 type Payload = {
-	query: PropertyQuery;
+	query: StylePropertyQuery;
 }
 
 export class StackAddLayerCommand extends CommandHandler<Payload, boolean> {
@@ -23,8 +23,8 @@ export class StackAddLayerCommand extends CommandHandler<Payload, boolean> {
 		if (!property || property.getType() !== 'stack') {
 			return Promise.reject(false);
 		}
-		(property as StackProperty).addLayer({});
-		this._context.emit('sectors:updated', []);
+		(property as StackStyleProperty).addLayer({});
+		this._context.emit('style:sectors:updated', []);
 		return Promise.resolve(true);
 	}
 }

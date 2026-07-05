@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useEditor } from "./use-editor";
 import { useEditorStore } from "./use-editor-store";
-import { Component } from "@pagepress/core/src/kernel/types";
+import { EditorElement } from "@pagepress/core";
 
 
 
@@ -14,16 +14,16 @@ export function useEditorSelectedSync() {
 
 
 	useEffect(() => {
-		const handlechange = (component: Component) => {
+		const handlechange = (component: EditorElement) => {
 			if (component.cid == selectedComponent?.cid) return;
 			setSelectedComponent(component);
 		}
-		editor.on('components:selected', handlechange);
-		return () => editor.off('components:selected', handlechange);
+		editor.on('elements:selected', handlechange);
+		return () => editor.off('elements:selected', handlechange);
 	}, []);
 
 	useEffect(() => {
 		if (!selectedComponent) return;
-		editor.run('components:select', { component: selectedComponent })
+		editor.run('elements:select', { element: selectedComponent })
 	}, [selectedComponent])
 }

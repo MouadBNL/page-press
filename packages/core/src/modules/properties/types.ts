@@ -2,4 +2,4 @@ import { Trait } from "grapesjs";
 
 
 
-export type ComponentProperty = Trait;
+export type EditorProperty = Trait;

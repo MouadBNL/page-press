@@ -1,12 +1,12 @@
 import { ScrollArea } from "@pagepress/ui/components/scroll-area";
 import { useEditorStore } from "../../../hooks/use-editor-store";
-import { ComponentProperty } from "@pagepress/core";
+import { EditorProperty } from "@pagepress/core";
 import { useLocalEcho } from "../../../hooks/use-local-echo";
 import { Input } from "@pagepress/ui/components/input";
 
 
 
-export function EditorElementPropertiesPanel() {
+export function EditorPropertiesPanel() {
 	const properties = useEditorStore((s) => s.properties);
 
 	return (
@@ -27,7 +27,7 @@ export function EditorElementPropertiesPanel() {
 
 
 
-function PropertyItem({ property, onChange }: { property: ComponentProperty, onChange: (value: any) => void }) {
+function PropertyItem({ property, onChange }: { property: EditorProperty, onChange: (value: any) => void }) {
 	"use no memo";
 	const echo = useLocalEcho(property.getValue(), onChange);
 	return (

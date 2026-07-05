@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
 import { EditorStoreSlices } from "..";
-import { Sector } from "@pagepress/core";
+import { EditorStyleSector } from "@pagepress/core";
 
 
 export type SectorsSlice = {
-	sectors: Sector[];
-	setSectors: (sectors: Sector[]) => void;
+	sectors: EditorStyleSector[];
+	setSectors: (sectors: EditorStyleSector[]) => void;
 }
 
 export const createSectorsSlice: StateCreator<EditorStoreSlices, [], [], SectorsSlice> = (set) => ({

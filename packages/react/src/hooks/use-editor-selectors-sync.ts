@@ -17,10 +17,10 @@ export function useEditorSelectorsSync() {
 				setSelectors(selectors);
 			});
 		}
-		editor.on('components:selected', handlechange);
+		editor.on('elements:selected', handlechange);
 		editor.on('selectors:updated', handlechange);
 		return () => {
-			editor.off('components:selected', handlechange);
+			editor.off('elements:selected', handlechange);
 			editor.off('selectors:updated', handlechange);
 		}
 	}, []);

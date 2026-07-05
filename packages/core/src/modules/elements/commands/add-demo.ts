@@ -1,12 +1,13 @@
-import { Component, EditorContext } from "../../../kernel/types";
+import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
+import { EditorElement } from "../types";
 
 
 type Payload = {
 	title: string
 }
 
-export class ComponentAddDemoCommand extends CommandHandler<Payload, Component | null> {
+export class AddDemoElementCommand extends CommandHandler<Payload, EditorElement | null> {
 	private readonly _context: EditorContext;
 
 	constructor(context: EditorContext) {
@@ -14,7 +15,7 @@ export class ComponentAddDemoCommand extends CommandHandler<Payload, Component |
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<Component | null> {
+	async handle(payload: Payload): Promise<EditorElement | null> {
 		const editor = this._context.gjseditor;
 		console.log("editor", editor);
 		console.log("selected", editor.getSelected());

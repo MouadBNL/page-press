@@ -9,7 +9,7 @@ export function EditorDemo() {
 	const { editor } = useEditor();
 
 	const handleClick = useCallback(() => {
-		editor.run('components:add-demo', {title: "Testing demo"});
+		editor.run('elements:add-demo', {title: "Testing demo"});
 	}, [editor]);
 
 	return (

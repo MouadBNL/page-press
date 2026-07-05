@@ -1,4 +1,4 @@
-import { Component } from "grapesjs";
+import { EditorElement } from "../elements";
 
 
 export type LayerTreeNode = {
@@ -10,6 +10,6 @@ export type LayerTreeNode = {
 	visible: boolean;
 	locked: boolean;
 	level: number;
-	component: Component;
+	element: EditorElement;
 	children: LayerTreeNode[];
 }

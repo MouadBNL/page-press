@@ -1,12 +1,12 @@
 import { EditorContext } from "../../../kernel/types";
 import { CommandHandler } from "../../../lib/command-bus";
 import { findPrimitiveProperty } from "../lib";
-import { PropertyPrimitiveQuery, StackProperty } from "../type";
+import { StylePropertyPrimitiveQuery, StackStyleProperty } from "../type";
 
 
 
 type Payload = {
-	query: PropertyPrimitiveQuery;
+	query: StylePropertyPrimitiveQuery;
 }
 export class GetSelectedLayerCommand extends CommandHandler<Payload, number | null> {
 	private readonly _context: EditorContext;
@@ -23,7 +23,7 @@ export class GetSelectedLayerCommand extends CommandHandler<Payload, number | nu
 			return Promise.resolve(null);
 		}
 
-		const stackProperty = property as StackProperty;
+		const stackProperty = property as StackStyleProperty;
 		const selectedLayer = stackProperty.getLayers().find(layer => layer.isSelected());
 		if (!selectedLayer) {
 			return Promise.resolve(null);

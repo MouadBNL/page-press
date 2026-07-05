@@ -1,11 +1,11 @@
-import { Component } from "@pagepress/core/src/kernel/types"
+import { EditorElement } from "@pagepress/core"
 import { StateCreator } from "zustand"
 import { EditorStoreSlices } from ".."
 
 
 export type SelectedComponentSlice = {
-	selectedComponent: Component | null,
-	setSelectedComponent: (component: Component | null) => void,
+	selectedComponent: EditorElement | null,
+	setSelectedComponent: (component: EditorElement | null) => void,
 }
 
 

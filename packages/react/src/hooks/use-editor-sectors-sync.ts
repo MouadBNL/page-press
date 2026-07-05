@@ -12,7 +12,7 @@ export function useEditorSectorsSync() {
 
 	const handle = debounce(() => {
 		console.log('useEditorSectorsSync handle');
-		editor.run('sectors:list', {}).then(sectors => {
+		editor.run('style:sectors', {}).then(sectors => {
 			setSectors(sectors);
 		});
 	}, 100);
@@ -20,14 +20,14 @@ export function useEditorSectorsSync() {
 	useEffect(() => {
 
 		handle();
-		editor.on('sectors:ready', handle);
-		editor.on('sectors:updated', handle);
-		editor.on('components:selected', handle);
+		editor.on('style:sectors:ready', handle);
+		editor.on('style:sectors:updated', handle);
+		editor.on('elements:selected', handle);
 
 		return () => {
-			editor.off('sectors:ready', handle);
-			editor.off('sectors:updated', handle);
-			editor.off('components:selected', handle);
+			editor.off('style:sectors:ready', handle);
+			editor.off('style:sectors:updated', handle);
+			editor.off('elements:selected', handle);
 		}
 	}, [editor]);
 }

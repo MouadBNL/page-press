@@ -1,17 +1,18 @@
 import { EventBus } from "../lib/event-bus";
-import { BlockEvents } from "../modules/blocks";
-import { ComponentEvents } from "../modules/components";
 import { EditorContext } from "./types";
+import { BlockEvents } from "../modules/blocks";
+import { ElementEvents } from "../modules/elements";
 import { SelectorEvents } from "../modules/selectors";
-import { registerSectorEvents, SectorEvents } from "../modules/sectors/events";
-import { LayerEvents } from "../modules/layers/events";
-import { registerLayerEvents } from "../modules/layers/events";
+
+
+import { type StyleEvents, registerStyleEvents } from "../modules/styles";
+import { type LayerEvents, registerLayerEvents } from "../modules/layers";
 
 export type EditorEvents = &
-	ComponentEvents &
+	ElementEvents &
 	BlockEvents &
 	SelectorEvents  &
-	SectorEvents &
+	StyleEvents &
 	LayerEvents;
 
 export type EditorEventBus = EventBus<EditorEvents>;
@@ -25,10 +26,10 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 	const editor = context.gjseditor;
 	editor.on('component:selected', (e) => {
 		console.log('component:selected', e)
-		bus.emit('components:selected', e);
+		bus.emit('elements:selected', e);
 	});
-	bus.emit('sectors:ready', undefined);
+	bus.emit('style:sectors:ready', undefined);
 
-	registerSectorEvents(bus, context);
+	registerStyleEvents(bus, context);
 	registerLayerEvents(bus, context);
 }

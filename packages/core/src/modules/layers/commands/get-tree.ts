@@ -33,7 +33,7 @@ function buildLayerTree(editor: Editor, root: Component, level: number = 0): Lay
 		visible: data.visible,
 		locked: data.locked,
 		level,
-		component: root,
+		element: root,
 		children: layers.map(layer => buildLayerTree(editor, layer, level + 1)),
 	} satisfies LayerTreeNode;
 }

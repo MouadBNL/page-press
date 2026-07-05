@@ -1,7 +1,6 @@
-import { Sector } from "@pagepress/core";
+import type { EditorStyleSector, ColorStyleProperty, CompositeStyleProperty, NumberStyleProperty, SelectStyleProperty, SliderStyleProperty, StackStyleProperty, EditorStyleProperty, StylePropertyQuery } from "@pagepress/core";
 import { useEditorStore } from "../../../hooks/use-editor-store";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@pagepress/ui/components/accordion";
-import { ColorProperty, CompositeProperty, NumberProperty, PropertyQuery, SectorProperty, SelectProperty, SliderProperty, StackProperty } from "@pagepress/core/src/modules/sectors";
 import { ScrollArea } from "@pagepress/ui/components/scroll-area";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@pagepress/ui/components/select";
@@ -18,7 +17,7 @@ import { useLocalEcho } from "../../../hooks/use-local-echo";
 
 
 
-export function EditorElementStylesPanel() {
+export function EditorStylesPanel() {
 	const sectors = useEditorStore(s => s.sectors);
 
 	console.log('sectors', sectors);
@@ -51,7 +50,7 @@ function SectorsList({ children }: { children: React.ReactNode }) {
 	)
 }
 
-function SectorItem({ sector }: { sector: Sector }) {
+function SectorItem({ sector }: { sector: EditorStyleSector }) {
 	return (
 		<AccordionItem value={sector.id} className="data-open:bg-muted/0">
 			<AccordionTrigger className="text-sm font-bold">{sector.name}</AccordionTrigger>
@@ -73,8 +72,8 @@ function SectorItem({ sector }: { sector: Sector }) {
 
 
 type PropertyItemProps = {
-	property: SectorProperty;
-} & PropertyQuery;
+	property: EditorStyleProperty;
+} & StylePropertyQuery;
 function PropertyItem({ property, ...query }: PropertyItemProps) {
 	"use no memo"
 
@@ -93,23 +92,23 @@ function PropertyItem({ property, ...query }: PropertyItemProps) {
 	switch (property.getType()) {
 		case 'select':
 		case 'radio':
-			return <SelectPropertyItem property={property as SelectProperty} onChange={onChange} />;
+			return <SelectPropertyItem property={property as SelectStyleProperty} onChange={onChange} />;
 		case 'number':
-			return <NumberPropertyItem property={property as NumberProperty} onChange={onChange} />;
+			return <NumberPropertyItem property={property as NumberStyleProperty} onChange={onChange} />;
 		case 'slider':
-			return <SliderPropertyItem property={property as SliderProperty} onChange={onChange} />;
+			return <SliderPropertyItem property={property as SliderStyleProperty} onChange={onChange} />;
 		case 'color':
-			return <ColorPropertyItem property={property as ColorProperty} onChange={onChange} />;
+			return <ColorPropertyItem property={property as ColorStyleProperty} onChange={onChange} />;
 
 		case 'composite':
 			return <CompositePropertyItem
-				property={property as CompositeProperty}
+				property={property as CompositeStyleProperty}
 				sectorId={query.sectorId}
 				propertyId={query.propertyId}
 			/>;
 		case 'stack':
 			return <StackPropertyItem
-				property={property as StackProperty}
+				property={property as StackStyleProperty}
 				sectorId={query.sectorId}
 				propertyId={query.propertyId}
 			/>;
@@ -118,7 +117,7 @@ function PropertyItem({ property, ...query }: PropertyItemProps) {
 	}
 }
 
-function SelectPropertyItem({ property, onChange }: { property: SelectProperty, onChange: (value: any) => void }) {
+function SelectPropertyItem({ property, onChange }: { property: SelectStyleProperty, onChange: (value: any) => void }) {
 	"use no memo";
 	const options = property.getOptions();
 
@@ -141,7 +140,7 @@ function SelectPropertyItem({ property, onChange }: { property: SelectProperty, 
 
 
 
-function NumberPropertyItem({ property, onChange }: { property: NumberProperty, onChange: (value: any) => void }) {
+function NumberPropertyItem({ property, onChange }: { property: NumberStyleProperty, onChange: (value: any) => void }) {
 	"use no memo";
 	const echo = useLocalEcho(property.getValue(), onChange);
 	return (
@@ -158,7 +157,7 @@ function NumberPropertyItem({ property, onChange }: { property: NumberProperty, 
 }
 
 
-function SliderPropertyItem({ property, onChange }: { property: SliderProperty, onChange: (value: any) => void }) {
+function SliderPropertyItem({ property, onChange }: { property: SliderStyleProperty, onChange: (value: any) => void }) {
 	"use no memo";
 
 	return (
@@ -179,7 +178,7 @@ function SliderPropertyItem({ property, onChange }: { property: SliderProperty, 
 	)
 }
 
-function ColorPropertyItem({ property, onChange }: { property: ColorProperty, onChange: (value: any) => void }) {
+function ColorPropertyItem({ property, onChange }: { property: ColorStyleProperty, onChange: (value: any) => void }) {
 	"use no memo";
 	const echo = useLocalEcho(property.getValue(), onChange);
 	return (
@@ -197,7 +196,7 @@ function ColorPropertyItem({ property, onChange }: { property: ColorProperty, on
 
 
 type CompositePropertyItemProps = {
-	property: CompositeProperty;
+	property: CompositeStyleProperty;
 	sectorId: string;
 	propertyId: string;
 	subPropertyId?: string;
@@ -225,7 +224,7 @@ function CompositePropertyItem({ property, sectorId, propertyId }: CompositeProp
 
 
 type StackPropertyItemProps = {
-	property: StackProperty;
+	property: StackStyleProperty;
 	sectorId: string;
 	propertyId: string;
 	subPropertyId?: string;
@@ -252,9 +251,9 @@ function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItem
 				console.error('useEffect error', err);
 			});
 		}, 100);
-		editor.on('sectors:updated', handle);
+		editor.on('style:sectors:updated', handle);
 		return () => {
-			editor.off('sectors:updated', handle);
+			editor.off('style:sectors:updated', handle);
 		}
 	}, [sectorId, propertyId]);
 
@@ -328,7 +327,7 @@ function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItem
 	)
 }
 
-function DebugPropertyItem({ property }: { property: SectorProperty }) {
+function DebugPropertyItem({ property }: { property: EditorStyleProperty }) {
 	"use no memo";
 	return (
 		<div className="bg-muted p-2 rounded-md">

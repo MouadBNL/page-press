@@ -9,7 +9,7 @@ import { useEditor } from "../../../hooks/use-editor";
 import { Selector } from "@pagepress/core";
 
 type Props = Omit<React.ComponentProps<"div">, "children">;
-export function EditorElementSelectorsPanel({ className, ...props }: Props) {
+export function EditorSelectorsPanel({ className, ...props }: Props) {
 	const selectorInputRef = useRef<HTMLInputElement>(null);
 	const selectors = useEditorStore((s) => s.selectors);
 	const { editor } = useEditor();
@@ -152,10 +152,10 @@ function SelectorToStyle() {
 		}
 		handle();
 		editor.on('selectors:updated', handle);
-		editor.on('components:selected', handle);
+		editor.on('elements:selected', handle);
 		return () => {
 			editor.off('selectors:updated', handle);
-			editor.off('components:selected', handle);
+			editor.off('elements:selected', handle);
 		}
 	}, []);
 	return (
