@@ -3,6 +3,7 @@ import { CommandHandler } from "../lib/command-bus";
 import { EditorEventBus } from "./events";
 import { EditorCommandBus } from "./commands";
 import { BlockDefinition, BlockManager } from "../modules/blocks";
+import { ComponentManager, EditorComponentDefinition } from "../modules/components";
 
 
 export type EditorContext = {
@@ -12,12 +13,14 @@ export type EditorContext = {
 	run: EditorCommandBus['dispatch'];
 
 	blockManager: BlockManager;
+	componentManager: ComponentManager;
 }
 
 
 export type EditorOptions = {
 	container: HTMLElement,
 	blocks?: BlockDefinition[],
+	components?: EditorComponentDefinition[],
 }
 
 
