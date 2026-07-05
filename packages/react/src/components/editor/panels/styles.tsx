@@ -2,7 +2,7 @@ import type { EditorStyleSector, ColorStyleProperty, CompositeStyleProperty, Num
 import { useEditorStore } from "../../../hooks/use-editor-store";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@pagepress/ui/components/accordion";
 import { ScrollArea } from "@pagepress/ui/components/scroll-area";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@pagepress/ui/components/select";
 import { Slider } from "@pagepress/ui/components/slider";
 import { ColorInput } from "@pagepress/ui/components/color-input";
@@ -27,11 +27,11 @@ export function EditorStylesPanel() {
 			<ScrollArea className="flex-1 h-full overflow-auto">
 				<SectorsList>
 					{sectors.map(sector => (
-						<>
+						<React.Fragment key={sector.id}>
 							{sector.visible && (
 								<SectorItem key={sector.id} sector={sector} />
 							)}
-						</>
+						</React.Fragment>
 					))}
 				</SectorsList>
 			</ScrollArea>

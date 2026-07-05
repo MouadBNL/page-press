@@ -1,4 +1,4 @@
 
 export type { EditorElement } from "./types";
 export { ElementCommands } from "./commands";
-export { ElementEvents } from "./events";
+export { type ElementEvents } from "./events";
