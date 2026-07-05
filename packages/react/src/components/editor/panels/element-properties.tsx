@@ -19,7 +19,6 @@ export function EditorElementPropertiesPanel() {
 						</div>
 					))}
 				</div>
-				<pre>{JSON.stringify(properties, null, 2)}</pre>
 			</ScrollArea>
 		</article>
 	)
