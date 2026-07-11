@@ -1,4 +1,4 @@
-import { DEFAULT_BLOCKS } from "@pagepress/core"
+import { DEFAULT_BLOCKS, DemoComponent } from "@pagepress/core"
 import { Editor } from "@pagepress/react"
 import { Button } from "@pagepress/ui/components/button"
 import { IconBox, IconComponents, IconListTree } from "@tabler/icons-react"
@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="h-screen overflow-hidden flex flex-col">
-      <Editor.Root className="flex flex-col overflow-hidden" blocks={DEFAULT_BLOCKS}>
+      <Editor.Root className="flex flex-col overflow-hidden" blocks={DEFAULT_BLOCKS} components={[DemoComponent]}>
         <header className="flex justify-end p-2 border-b">
           <Editor.Gate>
             <Editor.Demo />

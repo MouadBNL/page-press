@@ -22,9 +22,13 @@ export class AddDemoElementCommand extends CommandHandler<Payload, EditorElement
 		const container = editor.getSelected();
 
 		if (!container) return Promise.resolve(null);
-		const [el] = container.append(`<div class="room-card" data-room-id="1">
-			<h1>${payload.title}</h1>
-			</div>`);
+		const [el] = container.append(
+			`
+			<div class="room-card" data-pgpress-component-room-card>
+				<h1>${payload.title}</h1>
+			</div>
+			`
+		);
 
 		return el;
 	}

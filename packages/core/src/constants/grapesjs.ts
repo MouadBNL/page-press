@@ -77,4 +77,7 @@ export const defaultOptions: EditorConfig = {
     .class-b { color: green; display: inline }
     .class-c { color: blue; display: inline-block }
   `,
+
+  showOffsets: true,          // Enables margin/padding highlights on hover (default)
+  showOffsetsSelected: true,  // Enables highlights even when the component is selected
 };

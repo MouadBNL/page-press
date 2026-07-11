@@ -22,6 +22,7 @@ export function EditorCanvas({ containerProps, ...props }: Props) {
 		const editor = new Editor({
 			container: containerRef.current,
 			blocks: ctx.blocks,
+			components: ctx.components,
 		});
 
 		ctx.setEditor(editor);

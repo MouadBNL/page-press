@@ -10,9 +10,11 @@ import { useEditorSelectorsSync } from "../../hooks/use-editor-selectors-sync";
 import { useEditorSectorsSync } from "../../hooks/use-editor-sectors-sync";
 import { useEditorLayersSync } from "../../hooks/use-editor-layers-sync";
 import { useEditorPropertiesSync } from "../../hooks/use-editor-properties-sync";
+import { EditorComponentDefinition } from "@pagepress/core/src/modules/components";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
+	components?: EditorComponentDefinition[]
 };
 export function EditorRoot(props: Props) {
 
@@ -41,6 +43,7 @@ export function EditorRoot(props: Props) {
 		promise: deferredRef.current!.promise,
 		setEditor,
 		blocks: props.blocks,
+		components: props.components,
 		store: storeRef.current!,
 	}), [setEditor, props.blocks]);
 

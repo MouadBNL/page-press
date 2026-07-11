@@ -1,3 +1,4 @@
+import { registerComponentType } from "./lib/register-component-type";
 import { EditorComponentDefinition } from "./types";
 import { type Editor as GjsEditor } from "grapesjs";
 
@@ -25,13 +26,7 @@ export class ComponentManager {
 	}
 
 	public register(component: EditorComponentDefinition) {
-		this._gjseditor.Components.addType(component.id, {
-			model: {
-				attributes: {
-					content: component.content,
-				},
-			},
-		});
+		registerComponentType(this._gjseditor, component);
 		this._components[component.id] = component;
 	}
 }

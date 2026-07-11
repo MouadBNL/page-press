@@ -21,3 +21,4 @@ export {
 export { type LayerTreeNode } from './modules/layers';
 
 export { DEFAULT_BLOCKS } from './constants/blocks'
+export { DemoComponent } from './modules/components'
