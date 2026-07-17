@@ -11,11 +11,9 @@ export class SpotlightEnableCommand extends CommandHandler<void, void> {
 
 	async handle(): Promise<void> {
 		const editor = this._context.gjseditor;
+		// Exit paths (click outside, selection leaving the subtree, removal)
+		// are handled by the spotlight plugin itself.
 		editor.Commands.run('spotlight:set');
-
-		this._context.editor.once('elements:selected', () => {
-			this._context.run('spotlight:disable', undefined as void);
-		});
 		return Promise.resolve();
 	}
 }
