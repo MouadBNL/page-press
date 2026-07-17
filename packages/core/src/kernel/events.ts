@@ -7,8 +7,9 @@ import { SelectorEvents } from "../modules/selectors";
 
 import { type StyleEvents, registerStyleEvents } from "../modules/styles";
 import { type LayerEvents, registerLayerEvents } from "../modules/layers";
+import { CommonEvents } from "../modules/common";
 
-export type EditorEvents = &
+export type EditorEvents = CommonEvents &
 	ElementEvents &
 	BlockEvents &
 	SelectorEvents  &

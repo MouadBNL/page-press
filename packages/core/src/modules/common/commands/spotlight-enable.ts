@@ -14,6 +14,7 @@ export class SpotlightEnableCommand extends CommandHandler<void, void> {
 		// Exit paths (click outside, selection leaving the subtree, removal)
 		// are handled by the spotlight plugin itself.
 		editor.Commands.run('spotlight:set');
+		this._context.emit('spotlight:enabled', undefined);
 		return Promise.resolve();
 	}
 }
