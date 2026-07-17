@@ -4,11 +4,13 @@ import { EditorEventBus } from "./events";
 import { EditorCommandBus } from "./commands";
 import { BlockDefinition, BlockManager } from "../modules/blocks";
 import { ComponentManager, EditorComponentDefinition } from "../modules/components";
+import { Editor } from "./editor";
 
 
 export type EditorContext = {
 	 /** @unstable escape hatch — raw GrapesJS. Migrate calls off this onto curated methods over time. */
 	gjseditor: GjsEditor;
+	editor: Editor;
 	emit: EditorEventBus['emit'];
 	run: EditorCommandBus['dispatch'];
 

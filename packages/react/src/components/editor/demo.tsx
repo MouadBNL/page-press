@@ -29,6 +29,11 @@ export function EditorDemo() {
 		console.log("selected", selected);
 	}, [editor]);
 
+
+	const handleSpotlight = useCallback(() => {
+		editor.run('spotlight:enable', undefined as void);
+	}, [editor]);
+
 	return (
 		<>
 			<Button onClick={handleClick}>
@@ -38,6 +43,10 @@ export function EditorDemo() {
 
 			<Button onClick={handleDebug}>
 				Debug
+			</Button>
+
+			<Button onClick={handleSpotlight}>
+				Spotlight
 			</Button>
 		</>
 	)

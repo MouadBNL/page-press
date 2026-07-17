@@ -24,6 +24,7 @@ export class Editor {
 
 		this._context = Object.freeze({
 			gjseditor: editor,
+			editor: this,
 			emit: (...args) => this._evtbus.emit(...args),
 			run: (...args) => this._cmdbus.dispatch(...args),
 			blockManager: this._blockManager,
