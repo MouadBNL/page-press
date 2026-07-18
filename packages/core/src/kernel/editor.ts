@@ -19,17 +19,19 @@ export class Editor {
 		this._evtbus = createEditorEventBus();
 		this._cmdbus = createEditorCommandBus();
 		const editor = createGrapesjsEditor(options.container);
-		this._blockManager = new BlockManager(options.blocks);
-		this._componentManager = new ComponentManager(editor, options.components);
 
 		this._context = Object.freeze({
 			gjseditor: editor,
 			editor: this,
 			emit: (...args) => this._evtbus.emit(...args),
 			run: (...args) => this._cmdbus.dispatch(...args),
-			blockManager: this._blockManager,
-			componentManager: this._componentManager,
+			blockManager: () => this._blockManager,
+			componentManager: () => this._componentManager,
 		});
+
+		this._blockManager = new BlockManager(options.blocks);
+		this._componentManager = new ComponentManager(this._context, options.components);
+		
 		registerEditorEvents(this._evtbus, this._context);
 		registerEditorCommandHandlers(this._cmdbus, this._context);
 	}

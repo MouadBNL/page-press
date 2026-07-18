@@ -13,7 +13,7 @@ export class BlockListCommand extends CommandHandler<void, BlockDefinition[]> {
 	}
 
 	async handle(): Promise<BlockDefinition[]> {
-		const blocks = this._context.blockManager.list();
+		const blocks = this._context.blockManager().list();
 		return Promise.resolve(blocks);
 	}
 }

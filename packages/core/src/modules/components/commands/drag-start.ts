@@ -14,7 +14,7 @@ export class ComponentDragStartCommand extends CommandHandler<Payload, void> {
 	}
 
 	async handle(payload: Payload): Promise<void> {
-		const component = this._context.componentManager.get(payload.componentId);
+		const component = this._context.componentManager().get(payload.componentId);
 		if(!component) {
 			console.warn(`Could not find component with id ${payload.componentId}.`);
 			return Promise.resolve();

@@ -13,7 +13,7 @@ export class ComponentListCommand extends CommandHandler<void, EditorComponentDe
 	}
 
 	async handle(): Promise<EditorComponentDefinition[]> {
-		const components = this._context.componentManager.list();
+		const components = this._context.componentManager().list();
 		return Promise.resolve(components);
 	}
 }

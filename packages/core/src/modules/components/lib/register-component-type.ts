@@ -6,7 +6,11 @@ const penIcon = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentCo
   <path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/>
 </svg>`;
 
-export function registerComponentType(gjseditor: GjsEditor, component: EditorComponentDefinition) {
+export function registerComponentType(gjseditor: GjsEditor, id: string, getter: (id: string) => EditorComponentDefinition | undefined) {
+	const component = getter(id);
+	if (!component) {
+		throw new Error(`Component ${id} not found`);
+	}
 	console.log("registering component type", component);
 	gjseditor.Components.addType(component.id, {
 		isComponent: (el) => {
@@ -56,22 +60,26 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 			},
 
 			toHTML() {
+				const def = getter(this.get('componentId'));
+				if (!def) {
+					throw new Error(`Component ${this.model.get('componentId')} not found`);
+				}
 				console.log("toHTML", this);
 				const id = this.get('componentId');
 				const props = this.get('props');
 				const attrs = this.getAttrToHTML();     // user's classes/id from Selector Manager
 				attrs['data-pp-component'] = id;
 				attrs['data-pp-props'] = JSON.stringify(props);
-				const tag = component.rootTagName;
+				const tag = def.rootTagName;
 
 				console.log("toHTML", `
 					<${tag} ${stringifyAttrs(attrs)}>
-						${renderTemplate(component.content, props)}
+						${renderTemplate(def.content, props)}
 					</${tag}>
 				`);
 				return `
 					<${tag} ${stringifyAttrs(attrs)}>
-						${renderTemplate(component.content, props)}
+						${renderTemplate(def.content, props)}
 					</${tag}>
 				`;
 			},
@@ -85,12 +93,16 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 				this.listenTo(this.model, 'change:props change:componentId', this.render);
 			},
 			onRender() {
+				const def = getter(this.model.get('componentId'));
+				if (!def) {
+					throw new Error(`Component ${this.model.get('componentId')} not found`);
+				}
 				console.log("onRender", `
-						${renderTemplate(component.content, this.model.get('props'))}
+						${renderTemplate(def.content, this.model.get('props'))}
 					`);
 				console.log("onRender", this.model.get('props'));
 				this.el.innerHTML = renderTemplate(
-					component.content,
+					def.content,
 					this.model.get('props'),
 				);
 			},

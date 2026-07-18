@@ -14,8 +14,8 @@ export type EditorContext = {
 	emit: EditorEventBus['emit'];
 	run: EditorCommandBus['dispatch'];
 
-	blockManager: BlockManager;
-	componentManager: ComponentManager;
+	blockManager: () => BlockManager;
+	componentManager: () =>ComponentManager;
 }
 
 

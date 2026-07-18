@@ -40,4 +40,14 @@ export function useEditorEditComponentSync() {
 			editor.off('component:edited', exitHandler);
 		}
 	});
+
+	useEffect(() => {
+		const handler = debounce(({ component }: { component: EditorComponentDefinition }) => {
+			setEditingComponent(component);
+		}, 100);
+		editor.on('component:update', handler);
+		return () => {
+			editor.off('component:update', handler);
+		};
+	}, []);
 }

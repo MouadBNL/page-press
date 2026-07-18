@@ -14,7 +14,7 @@ export class BlockDragStartCommand extends CommandHandler<Payload, void> {
 	}
 
 	async handle(payload: Payload): Promise<void> {
-		const block = this._context.blockManager.get(payload.blockId);
+		const block = this._context.blockManager().get(payload.blockId);
 		if(!block) {
 			console.warn(`Could not find block with id ${payload.blockId}.`);
 			return Promise.resolve();

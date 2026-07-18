@@ -1,15 +1,16 @@
+import { EditorContext } from "../../kernel/types";
+import { refreshComponentTypeContent } from "./lib/refresh-component-type-content";
 import { registerComponentType } from "./lib/register-component-type";
 import { EditorComponentDefinition } from "./types";
-import { type Editor as GjsEditor } from "grapesjs";
 
 
 export class ComponentManager {
 
-	private _gjseditor: GjsEditor;
+	private context: EditorContext;
 	private _components: Record<string, EditorComponentDefinition> = {};
 
-	constructor(gjseditor: GjsEditor, components?: EditorComponentDefinition[]) {
-		this._gjseditor = gjseditor;
+	constructor(context: EditorContext, components?: EditorComponentDefinition[]) {
+		this.context = context;
 		this.set(components ?? []);
 	}
 
@@ -25,8 +26,14 @@ export class ComponentManager {
 		return structuredClone(Object.values(this._components));
 	}
 
+	public update(id: string, component: EditorComponentDefinition) {
+		this._components[id] = component;
+		this.context.emit('component:update', { component });
+		refreshComponentTypeContent(this.context.gjseditor, id);
+	}
+
 	public register(component: EditorComponentDefinition) {
-		registerComponentType(this._gjseditor, component);
 		this._components[component.id] = component;
+		registerComponentType(this.context.gjseditor, component.id, (id) => this._components[id]);
 	}
 }

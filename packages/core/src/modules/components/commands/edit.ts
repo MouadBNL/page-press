@@ -25,7 +25,7 @@ export class ComponentEditCommand extends CommandHandler<void, void> {
 			return;
 		}
 
-		const component = this._context.componentManager.get(selected);
+		const component = this._context.componentManager().get(selected);
 
 		if (!component) {
 			this._context.emit('component:edit-failed', undefined);
