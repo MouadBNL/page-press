@@ -7,6 +7,7 @@ import { SectorCommands } from "../modules/styles";
 import { LayerCommands } from "../modules/layers";
 import { PropertiesCommands } from "../modules/properties";
 import { CommonCommands } from "../modules/common";
+import { ComponentCommands } from "../modules/components";
 
 
 const commands = {
@@ -17,6 +18,7 @@ const commands = {
 	...SectorCommands,
 	...LayerCommands,
 	...PropertiesCommands,
+	...ComponentCommands,
 }
 
 export type EditorCommandMap = {

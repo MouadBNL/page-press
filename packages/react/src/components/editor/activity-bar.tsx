@@ -1,5 +1,5 @@
 import { ResizableHandle, ResizablePanel } from "@pagepress/ui/components/resizable";
-import React, { Children, isValidElement, ReactNode, useEffect } from "react";
+import React, { Children, isValidElement, ReactNode, useEffect, useMemo } from "react";
 import { useEditorStore } from "../../hooks/use-editor-store";
 import { cn } from "@pagepress/ui/lib/utils";
 
@@ -17,10 +17,13 @@ type Props = React.PropsWithChildren<{
 }>;
 export function EditorActivityBar({ children, side, defaultSize }: Props) {
 
+	const hiddenPanels = useEditorStore((s) => s.hiddenPanels);
 	const activePanel = useEditorStore((s) =>  s.activityBarPanel);
 	const togglePanel = useEditorStore((s) => s.toggleActivityBarPanel);
 
-	const panels = extractPanelDefs(children);
+	const panels = useMemo(() => {
+		return extractPanelDefs(children).filter((panel) => !hiddenPanels.has(panel.id));
+	}, [children, hiddenPanels]);
 
 	const handleToggle = (panelId: string) => {
 		togglePanel(panelId);

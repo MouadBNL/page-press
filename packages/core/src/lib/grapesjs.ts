@@ -1,7 +1,7 @@
 import grapesjs from "grapesjs";
 import 'grapesjs/dist/css/grapes.min.css';
 import { defaultOptions } from "../constants/grapesjs";
-import { PgpressSpotlightPlugin } from "./pgpress-plugin";
+import { PgpressCommonPlugin, PgpressSpotlightPlugin } from "./pgpress-plugin";
 // import { DemoBlockTypePlugin } from "./gjs-plugins";
 
 
@@ -13,6 +13,7 @@ export function createGrapesjsEditor(container: HTMLElement) {
 		container: container,
 		plugins: [
 			// DemoBlockTypePlugin,
+			PgpressCommonPlugin,
 			PgpressSpotlightPlugin,
 		],
 		panels: { defaults: [] },

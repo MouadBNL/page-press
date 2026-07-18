@@ -8,13 +8,16 @@ import { SelectorEvents } from "../modules/selectors";
 import { type StyleEvents, registerStyleEvents } from "../modules/styles";
 import { type LayerEvents, registerLayerEvents } from "../modules/layers";
 import { CommonEvents } from "../modules/common";
+import { ComponentEvents, registerComponentEvents } from "../modules/components/events";
+import { registerCommonEvents } from "../modules/common/events";
 
 export type EditorEvents = CommonEvents &
 	ElementEvents &
 	BlockEvents &
 	SelectorEvents  &
 	StyleEvents &
-	LayerEvents;
+	LayerEvents &
+	ComponentEvents;
 
 export type EditorEventBus = EventBus<EditorEvents>;
 
@@ -33,4 +36,6 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 
 	registerStyleEvents(bus, context);
 	registerLayerEvents(bus, context);
+	registerComponentEvents(bus, context);
+	registerCommonEvents(bus, context);
 }

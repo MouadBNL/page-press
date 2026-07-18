@@ -26,6 +26,11 @@ function App() {
               Components
             </Editor.ActivityBarItem>
 
+            <Editor.ActivityBarItem id="component-edit" label="Component Edit" icon={<IconComponents />}>
+              <Editor.Panels.ComponentEdit />
+            </Editor.ActivityBarItem>
+
+
           </Editor.ActivityBar>
           <Editor.Canvas className="flex-1 flex flex-col h-full overflow-hidden" />
           <Editor.Sidebar defaultSize="20%">

@@ -3,11 +3,13 @@ import { EditorPropertiesPanel } from "./properties";
 import { EditorStylesPanel } from "./styles";
 import { EditorSelectorsPanel } from "./selectors";
 import { EditorLayersPanel } from "./layers";
+import { EditorComponentEditPanel } from "./component-edit";
 
 
 export const EditorPanels = {
 	Layers: EditorLayersPanel,
 	Blocks: EditorBlocksPanel,
+	ComponentEdit: EditorComponentEditPanel,
 	ElementSelectors: EditorSelectorsPanel,
 	ElementStyles: EditorStylesPanel,
 	ElementProperties: EditorPropertiesPanel,

@@ -133,6 +133,8 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 		overlay?.remove();
 		overlay = null;
 		spotlighted = null;
+		console.log('[PgpressSpotlightPlugin] trigger spotlight:disabled');
+		editor.trigger('spotlight:disabled', undefined);
 	};
 
 	editor.Commands.add('spotlight:set', () => {
@@ -184,4 +186,13 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 	editor.Commands.add('spotlight:unset', teardown);
 
 	editor.on('destroy', teardown);
+};
+
+
+export const PgpressCommonPlugin: Plugin = (editor) => {
+	editor.Commands.add('pgpress:component:edit', () => {
+		console.log('[PgpressCommonPlugin] pgpress:component:edit');
+		console.log('[PgpressCommonPlugin] trigger pgpress:component:editing');
+		editor.trigger('pgpress:component:editing', { component: editor.getSelected() });
+	});
 };

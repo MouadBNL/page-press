@@ -2,6 +2,9 @@ import { TraitProperties, type Editor as GjsEditor } from "grapesjs";
 import { EditorComponentDefinition, EditorComponentPropDefinition } from "../types";
 import { renderTemplate, stringifyAttrs } from "./template";
 
+const penIcon = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+  <path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/>
+</svg>`;
 
 export function registerComponentType(gjseditor: GjsEditor, component: EditorComponentDefinition) {
 	console.log("registering component type", component);
@@ -21,13 +24,27 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 				traits: extractTraits(component.props),
 			},
 
+
 			init() {
 				console.log("init", this);
+
+				/**
+				 * Toolbar setup
+				 */
+				const toolbar = this.get('toolbar') || [];
+				this.set('toolbar', [
+					...toolbar,
+					{
+						attributes: { title: 'Edit' },
+						label: penIcon,
+						command: 'pgpress:component:edit'
+					}
+				]);
 
 				console.log("init", extractTraits(component.props));
 				for (const prop of extractTraits(component.props)) {
 					console.log("Listening to change:" + prop.id);
-					this.on('change:' + prop.id,  e =>{
+					this.on('change:' + prop.id, e => {
 						console.log("[MODEL] change:" + prop.id, e);
 					})
 				}
@@ -62,16 +79,16 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 
 		view: {
 			init() {
-				this.on('change:attributes:attribute-change',  e =>{
+				this.on('change:attributes:attribute-change', e => {
 					console.log("[VIEW] attribute-change", e);
 				})
 				this.listenTo(this.model, 'change:props change:componentId', this.render);
 			},
 			onRender() {
-				console.log ("onRender", `
+				console.log("onRender", `
 						${renderTemplate(component.content, this.model.get('props'))}
 					`);
-					console.log("onRender", this.model.get('props'));
+				console.log("onRender", this.model.get('props'));
 				this.el.innerHTML = renderTemplate(
 					component.content,
 					this.model.get('props'),
@@ -104,17 +121,17 @@ function extractTraits(props: Record<string, EditorComponentPropDefinition>) {
 
 
 function propDefinitionToTrait(id: string, propDefinition: EditorComponentPropDefinition): Partial<TraitProperties> {
-	
+
 	return {
 		id: id,
 		name: id,
 		label: propDefinition.label,
 		type: propDefinition.type,
 		placeholder: propDefinition.label ?? '',
-		getValue: ({component}) => { 
+		getValue: ({ component }) => {
 			return component.get('props')?.[id];
 		},
-		setValue: ({component, value}) => {
+		setValue: ({ component, value }) => {
 			component.set('props', { ...component.get('props'), [id]: value });
 			component.trigger('change:props');
 		},
