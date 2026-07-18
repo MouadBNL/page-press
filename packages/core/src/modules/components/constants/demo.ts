@@ -2,11 +2,11 @@ import { EditorComponentDefinition } from "../types";
 
 
 
-export const DemoComponent: EditorComponentDefinition<{ name: {required: true}, fee: {required: false} }> = {
+export const DemoComponent: EditorComponentDefinition = {
 	id: 'room-card',
 	label: 'Room Card',
 	rootTagName: 'div',
-	props: {
+	properties: {
 		name: {
 			type: 'text',
 			label: 'Name',

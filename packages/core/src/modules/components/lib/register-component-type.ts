@@ -20,8 +20,8 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 				droppable: false,
 				selectable: true,
 				componentId: component.id,
-				props: extractDefaultProps(component.props),
-				traits: extractTraits(component.props),
+				props: extractDefaultProps(component.properties),
+				traits: extractTraits(component.properties),
 			},
 
 
@@ -41,8 +41,8 @@ export function registerComponentType(gjseditor: GjsEditor, component: EditorCom
 					}
 				]);
 
-				console.log("init", extractTraits(component.props));
-				for (const prop of extractTraits(component.props)) {
+				console.log("init", extractTraits(component.properties));
+				for (const prop of extractTraits(component.properties)) {
 					console.log("Listening to change:" + prop.id);
 					this.on('change:' + prop.id, e => {
 						console.log("[MODEL] change:" + prop.id, e);

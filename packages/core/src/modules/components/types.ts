@@ -7,14 +7,15 @@ export type EditorComponent = {
 
 
 
-export type EditorComponentDefinition<TProps extends Record<string, { required: boolean }> = {}> = {
+export type EditorComponentDefinition = {
 	id: string;
 	label: string;
 	rootTagName: string;
 	content: string;
-	props: {
-		[K in keyof TProps]: TProps[K]['required'] extends true ? EditorComponentPropDefinition : EditorComponentPropDefinition | undefined
-	};
+	properties: Record<string, EditorComponentPropDefinition>;
+	// props: {
+	// 	[K in keyof TProps]: TProps[K]['required'] extends true ? EditorComponentPropDefinition : EditorComponentPropDefinition | undefined
+	// };
 }
 
 
