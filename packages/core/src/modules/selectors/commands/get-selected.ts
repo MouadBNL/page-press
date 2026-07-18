@@ -12,7 +12,7 @@ export class GetSelectedCommand extends CommandHandler<void, Selector[]> {
 		this._context = context;
 	}
 
-	async handle(): Promise<Selector[]> {
+	handle(): Selector[] {
 		const editor = this._context.gjseditor;
 		const selected = editor.Selectors.getSelected();
 		const selectors: Selector[] = selected.map(selector => ({
@@ -21,6 +21,6 @@ export class GetSelectedCommand extends CommandHandler<void, Selector[]> {
 			type: selector.isId() ? 'id' : 'class',
 			active: selector.getActive()
 		}));
-		return Promise.resolve(selectors);
+		return selectors;
 	}
 }

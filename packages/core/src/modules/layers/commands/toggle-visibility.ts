@@ -16,12 +16,12 @@ export class LayerToggleVisibilityCommand extends CommandHandler<Payload, void> 
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<void> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		console.log('LayerToggleVisibilityCommand', payload);
 		editor.Layers.setLayerData(payload.element, {
 			visible: payload.visible,
 		});
-		return Promise.resolve();
+		return;
 	}
 }

@@ -17,6 +17,6 @@ export function registerComponentEvents(bus: EditorEventBus, context: EditorCont
 	const editor = context.gjseditor;
 	editor.on('pgpress:component:editing', ({ component }: { component: GjsComponent }) => {
 		console.log('[registerComponentEvents] pgpress:component:editing', {component});
-		context.run("components:edit", undefined);
+		context.run("components:edit");
 	});
 }

@@ -11,10 +11,9 @@ export function useEditorLayersSync() {
 
 	useEffect(() => {
 		const handle = debounce(() => {
-			editor.run('layers:get-tree', {}).then(layerTree => {
-				console.log('useEditorLayersSync handle', layerTree);
-				setLayerTree(layerTree);
-			});
+			const layerTree = editor.run('layers:get-tree');
+			console.log('useEditorLayersSync handle', layerTree);
+			setLayerTree(layerTree);
 		}, 100);
 		handle();
 		editor.on('layers:updated', handle);

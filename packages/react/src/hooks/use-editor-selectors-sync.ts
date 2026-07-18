@@ -12,10 +12,9 @@ export function useEditorSelectorsSync() {
 	useEffect(() => {
 		const handlechange = () => {
 			console.log('useEditorSelectorsSync handlechange')
-			const selectors = editor.run('selectors:get-selected', {}).then(selectors => {
-				console.log('useEditorSelectorsSync handlechange', selectors)
-				setSelectors(selectors);
-			});
+			const selectors = editor.run('selectors:get-selected');
+			console.log('useEditorSelectorsSync handlechange', selectors)
+			setSelectors(selectors);
 		}
 		editor.on('elements:selected', handlechange);
 		editor.on('selectors:updated', handlechange);

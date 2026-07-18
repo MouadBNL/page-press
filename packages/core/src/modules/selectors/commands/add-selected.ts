@@ -9,7 +9,7 @@ type Payload = {
 	};
 }
 
-export class AddSelectedCommand extends CommandHandler<Payload, boolean> {
+export class AddSelectedCommand extends CommandHandler<Payload, void> {
 	private readonly _context: EditorContext;
 
 	constructor(context: EditorContext) {
@@ -17,7 +17,7 @@ export class AddSelectedCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		editor.Selectors.addSelected({
 			name: payload.selector.name,
@@ -25,6 +25,6 @@ export class AddSelectedCommand extends CommandHandler<Payload, boolean> {
 		});
 		console.log('AddSelectedCommand handle', payload.selector);
 		this._context.emit('selectors:updated', undefined);
-		return Promise.resolve(true);
+		return;
 	}
 }

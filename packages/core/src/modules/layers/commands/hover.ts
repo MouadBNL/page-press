@@ -14,11 +14,11 @@ export class LayerHoverCommand extends CommandHandler<Payload, void> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<void> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		editor.Layers.setLayerData(payload.element, {
 			hovered: payload.hovered,
 		});
-		return Promise.resolve();
+		return;
 	}
 }

@@ -12,7 +12,7 @@ export function EditorBlocksPanel() {
 
 	useEffect(() => {
 		const handleupdate = async () => {
-			const blocks = await editor.run('blocks:list', {});
+			const blocks = await editor.run('blocks:list');
 			setBlocks(blocks);
 		};
 
@@ -49,7 +49,7 @@ export function EditorBlocksPanel() {
 								onDragStart={(event) =>
 									editor.run('blocks:drag-start', { blockId: block.id })
 								}
-								onDragEnd={() => editor.run('blocks:drag-end', {})}
+								onDragEnd={() => editor.run('blocks:drag-end')}
 								className="flex cursor-grab flex-col items-center gap-1.5 rounded-md border bg-card p-3 text-xs text-card-foreground transition-colors hover:border-ring hover:bg-accent active:cursor-grabbing"
 							>
 								<IconCube3dSphere className="size-8 text-muted-foreground" />

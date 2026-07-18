@@ -14,10 +14,10 @@ export class GetSelectedElementPropertiesCommand extends CommandHandler<Payload,
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<EditorProperty[]> {
+	handle(payload: Payload): EditorProperty[] {
 		const editor = this._context.gjseditor;
 		console.log('LayerToggleVisibilityCommand', payload);
 		const traits = editor.Traits.getTraits();
-		return Promise.resolve(traits);
+		return traits;
 	}
 }

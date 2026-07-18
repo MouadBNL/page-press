@@ -16,18 +16,18 @@ export class GetSelectedLayerCommand extends CommandHandler<Payload, number | nu
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<number | null> {
+	handle(payload: Payload): number | null {
 		const editor = this._context.gjseditor;
 		const property = findPrimitiveProperty(editor, payload.query);
 		if (!property) {
-			return Promise.resolve(null);
+			return null;
 		}
 
 		const stackProperty = property as StackStyleProperty;
 		const selectedLayer = stackProperty.getLayers().find(layer => layer.isSelected());
 		if (!selectedLayer) {
-			return Promise.resolve(null);
+			return null;
 		}
-		return Promise.resolve(selectedLayer.getIndex());
+		return selectedLayer.getIndex();
 	}
 }	

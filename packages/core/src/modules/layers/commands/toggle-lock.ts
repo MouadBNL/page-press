@@ -15,11 +15,11 @@ export class LayerToggleLockCommand extends CommandHandler<Payload, void> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<void> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		editor.Layers.setLayerData(payload.element, {
 			locked: payload.locked,
 		});
-		return Promise.resolve();
+		return;
 	}
 }

@@ -12,8 +12,8 @@ export class BlockListCommand extends CommandHandler<void, BlockDefinition[]> {
 		this._context = context;
 	}
 
-	async handle(): Promise<BlockDefinition[]> {
+	handle(): BlockDefinition[] {
 		const blocks = this._context.blockManager().list();
-		return Promise.resolve(blocks);
+		return blocks;
 	}
 }

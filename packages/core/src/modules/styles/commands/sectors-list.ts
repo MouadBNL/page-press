@@ -11,7 +11,7 @@ export class SectorListCommand extends CommandHandler<void, EditorStyleSector[]>
 		this._context = context;
 	}
 
-	async handle(): Promise<EditorStyleSector[]> {
+	handle(): EditorStyleSector[] {
 		const editor = this._context.gjseditor;
 		const manager = editor.StyleManager;
 		return (manager.getSectors() ?? []).map((sector: GjsSector) => ({
@@ -21,4 +21,4 @@ export class SectorListCommand extends CommandHandler<void, EditorStyleSector[]>
 			visible: sector.isVisible(),
 		} satisfies EditorStyleSector));
 	}
-}
+}	

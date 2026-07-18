@@ -10,10 +10,10 @@ export class ComponentDragEndCommand extends CommandHandler<void, void> {
 		this._context = context;
 	}
 
-	async handle(): Promise<void> {
+	handle(): void {
 		const editor = this._context.gjseditor;
 		editor.Canvas.endDrag();
 
-		return Promise.resolve();
+		return;
 	}
 }

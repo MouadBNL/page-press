@@ -6,7 +6,7 @@ type Payload = {
 	name: string;
 }
 
-export class DisableSelectorCommand extends CommandHandler<Payload, boolean> {
+export class DisableSelectorCommand extends CommandHandler<Payload, void> {
 	private readonly _context: EditorContext;
 
 	constructor(context: EditorContext) {
@@ -14,13 +14,13 @@ export class DisableSelectorCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		const selector = editor.Selectors.getSelector(payload.name);
 		if(selector) {
 			selector.setActive(false);
 		}
 		this._context.emit('selectors:updated', undefined);
-		return Promise.resolve(true);
+		return;
 	}
 }

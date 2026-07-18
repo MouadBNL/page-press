@@ -6,7 +6,7 @@ type Payload = {
 	element: EditorElement;
 }
 
-export class ElementSelectCommand extends CommandHandler<Payload, boolean> {
+export class ElementSelectCommand extends CommandHandler<Payload, void> {
 	private readonly _context: EditorContext;
 
 	constructor(context: EditorContext) {
@@ -14,9 +14,8 @@ export class ElementSelectCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		editor.select(payload.element);
-		return Promise.resolve(true);
 	}
 }

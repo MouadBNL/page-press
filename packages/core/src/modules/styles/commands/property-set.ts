@@ -21,13 +21,13 @@ export class SectorPropertySetCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): boolean {
 		console.trace('SectorPropertySetCommand', payload);
 		const property = findProperty(this._context.gjseditor, payload.query);
 		if (!property) {
-			return Promise.reject("Property not found");
+			return false;
 		}
 		property.upValue?.(payload.value);
-		return Promise.resolve(true);
+		return true;
 	}
 }

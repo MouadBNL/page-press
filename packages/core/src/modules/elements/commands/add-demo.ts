@@ -15,13 +15,13 @@ export class AddDemoElementCommand extends CommandHandler<Payload, EditorElement
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<EditorElement | null> {
+	handle(payload: Payload): EditorElement | null {
 		const editor = this._context.gjseditor;
 		console.log("editor", editor);
 		console.log("selected", editor.getSelected());
 		const container = editor.getSelected();
 
-		if (!container) return Promise.resolve(null);
+		if (!container) return null;
 		const [el] = container.append(
 			`
 			<div class="room-card" data-pgpress-component-room-card>

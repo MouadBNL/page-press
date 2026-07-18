@@ -10,7 +10,7 @@ export class GetSelectorToStyleCommand extends CommandHandler<void, string | nul
 		this._context = context;
 	}
 
-	async handle(): Promise<string | null> {
+	handle(): string | null {
 		const editor = this._context.gjseditor;
 		const target = editor.getSelectedToStyle();
 		 // Style target is a CSS rule

@@ -14,7 +14,7 @@ export class ComponentUpdateCommand extends CommandHandler<ComponentUpdateComman
 		this._context = context;
 	}
 
-	async handle(payload: ComponentUpdateCommandPayload): Promise<void> {
+	handle(payload: ComponentUpdateCommandPayload): void {
 		this._context.componentManager().update(payload.id, payload.component);
 	}
 }

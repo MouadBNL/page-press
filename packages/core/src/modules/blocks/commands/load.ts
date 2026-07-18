@@ -12,10 +12,10 @@ export class BlockLoadCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): boolean {
 		this._context.emit('blocks:loading', undefined as void);
 		this._context.blockManager().set(payload);
 		this._context.emit('blocks:loaded', undefined as void);
-		return Promise.resolve(true);
+		return true;
 	}
 }

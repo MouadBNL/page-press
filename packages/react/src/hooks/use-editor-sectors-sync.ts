@@ -12,9 +12,9 @@ export function useEditorSectorsSync() {
 
 	const handle = debounce(() => {
 		console.log('useEditorSectorsSync handle');
-		editor.run('style:sectors', {}).then(sectors => {
-			setSectors(sectors);
-		});
+		const sectors = editor.run('style:sectors');
+		console.log('useEditorSectorsSync handle', sectors);
+		setSectors(sectors);
 	}, 100);
 
 	useEffect(() => {

@@ -13,7 +13,7 @@ export function EditorDemo() {
 	}, [editor]);
 
 	const handleDebug = useCallback(async () => {
-		const selected = await editor.run('elements:get-selected', undefined);
+		const selected = editor.run('elements:get-selected');
 		const name = selected?.getTrait('name')!;
 		const fee = selected?.getTrait('fee')!;
 		console.log("Debug", {
@@ -31,7 +31,7 @@ export function EditorDemo() {
 
 
 	const handleSpotlight = useCallback(() => {
-		editor.run('spotlight:enable', undefined as void);
+		editor.run('spotlight:enable');
 	}, [editor]);
 
 	return (

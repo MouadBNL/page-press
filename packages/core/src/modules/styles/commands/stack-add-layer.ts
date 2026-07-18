@@ -17,14 +17,14 @@ export class StackAddLayerCommand extends CommandHandler<Payload, boolean> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): boolean {
 		console.log('StackAddLayerCommand', payload);
 		const property = findProperty(this._context.gjseditor, payload.query);
 		if (!property || property.getType() !== 'stack') {
-			return Promise.reject(false);
+			return false;
 		}
 		(property as StackStyleProperty).addLayer({});
 		this._context.emit('style:sectors:updated', []);
-		return Promise.resolve(true);
+		return true;
 	}
 }

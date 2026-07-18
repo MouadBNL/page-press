@@ -9,12 +9,12 @@ export class SpotlightDisabledCommand extends CommandHandler<void, void> {
 		this._context = context;
 	}
 
-	async handle(): Promise<void> {
+	handle(): void {
 		const editor = this._context.gjseditor;
 		editor.Commands.run('spotlight:unset');
 		console.log('[SpotlightDisabledCommand] run  spotlight:unset');
 		this._context.emit('spotlight:disabled', undefined);
 		console.log('[SpotlightDisabledCommand] emit spotlight:disabled');
-		return Promise.resolve();
+		return;
 	}
 }

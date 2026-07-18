@@ -146,8 +146,8 @@ function SelectorToStyle() {
 	const [selector, setSelector] = useState<string | null>(null);
 	const {editor} = useEditor();
 	useEffect(() => {
-		const handle = async () => {
-			const selector = await editor.run('selectors:get-selector-to-style', undefined);
+		const handle = () => {
+			const selector = editor.run('selectors:get-selector-to-style');
 			setSelector(selector);
 		}
 		handle();

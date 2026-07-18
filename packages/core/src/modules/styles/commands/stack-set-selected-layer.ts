@@ -17,18 +17,18 @@ export class StackSetSelectedLayerCommand extends CommandHandler<Payload, boolea
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<boolean> {
+	handle(payload: Payload): boolean {
 		const editor = this._context.gjseditor;
 		const property = findPrimitiveProperty(editor, payload.query);
 		if (!property) {
-			return Promise.reject(false);
+			return false;
 		}
 		const layer = (property as StackStyleProperty).getLayer(payload.layerIdx);
 		if (!layer) {
-			return Promise.reject(false);
+			return false;
 		}
 		layer.select();
 		this._context.emit('style:sectors:updated', []);
-		return Promise.resolve(true);
+		return true;
 	}
 }	

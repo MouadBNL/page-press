@@ -80,9 +80,10 @@ function PropertyItem({ property, ...query }: PropertyItemProps) {
 	const { run } = useEditorCmd('style:property:set');
 
 	const onChange = (value: any) => {
-		run({ query, value }).catch(err => {
-			console.error('onChange error', err);
-		});
+		const success = run({ query, value });
+		if (!success) {
+			console.error('onChange error', { query, value });
+		}
 	};
 
 	if (!property.isVisible()) {
@@ -242,14 +243,11 @@ function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItem
 	useEffect(() => {
 		const handle = debounce(() => {
 			console.log('handle');
-			getSelectedLayer({
+			const layerIdx = getSelectedLayer({
 				query: { sectorId, propertyId }
-			}).then(layerIdx => {
-				console.log('handle', layerIdx);
-				setSelectedLayerIdx(layerIdx);
-			}).catch(err => {
-				console.error('useEffect error', err);
 			});
+			console.log('handle', layerIdx);
+			setSelectedLayerIdx(layerIdx);
 		}, 100);
 		editor.on('style:sectors:updated', handle);
 		return () => {
@@ -260,25 +258,23 @@ function StackPropertyItem({ property, sectorId, propertyId }: StackPropertyItem
 	const handleAddLayer = () => {
 		addLayer({
 			query: { sectorId, propertyId }
-		}).catch((err: any) => {
-			console.error('handleAddLayer error', err);
-		});
+		})
 	};
 
 	const handleChangeLayer = (value: string) => {
 		console.log('handleChangeLayer', value);
-		setSelectedLayer({ query: { sectorId, propertyId }, layerIdx: Number(value) }).catch(err => {
-			console.error('handleChangeLayer error', err);
-		});
+		const success = setSelectedLayer({ query: { sectorId, propertyId }, layerIdx: Number(value) })
+		
+		if (!success) {
+			console.error('handleChangeLayer error', { sectorId, propertyId, layerIdx: Number(value) });
+		}
 	};
 
 	const handleRemoveLayer = (layerIdx: number) => {
 		removeLayer({
 			query: { sectorId, propertyId },
 			layerIdx
-		}).catch(err => {
-			console.error('handleRemoveLayer error', err);
-		});
+		})
 	};
 	return (
 		<div>

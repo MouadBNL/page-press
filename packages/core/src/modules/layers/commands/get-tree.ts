@@ -12,7 +12,7 @@ export class LayerGetTreeCommand extends CommandHandler<void, LayerTreeNode | nu
 		this._context = context;
 	}
 
-	async handle(): Promise<LayerTreeNode> {
+	handle(): LayerTreeNode {
 		const editor = this._context.gjseditor;
 		const root = editor.LayerManager.getRoot();
 

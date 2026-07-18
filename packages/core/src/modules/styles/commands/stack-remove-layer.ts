@@ -16,18 +16,18 @@ export class StackRemoveLayerCommand extends CommandHandler<Payload, void> {
 		this._context = context;
 	}
 
-	async handle(payload: Payload): Promise<void> {
+	handle(payload: Payload): void {
 		const editor = this._context.gjseditor;
 		const property = findPrimitiveProperty(editor, payload.query);
 		if (!property) {
-			return Promise.reject();
+			return;
 		}
 		const layer = (property as StackStyleProperty).getLayer(payload.layerIdx);
 		if (!layer) {
-			return Promise.reject();
+			return;
 		}
 		(property as StackStyleProperty).removeLayer(layer);
 		this._context.emit('style:sectors:updated', []);
-		return Promise.resolve();
+		return;
 	}
 }

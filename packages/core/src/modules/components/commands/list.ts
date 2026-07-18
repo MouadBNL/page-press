@@ -12,8 +12,8 @@ export class ComponentListCommand extends CommandHandler<void, EditorComponentDe
 		this._context = context;
 	}
 
-	async handle(): Promise<EditorComponentDefinition[]> {
+	handle(): EditorComponentDefinition[] {
 		const components = this._context.componentManager().list();
-		return Promise.resolve(components);
+		return components;
 	}
 }

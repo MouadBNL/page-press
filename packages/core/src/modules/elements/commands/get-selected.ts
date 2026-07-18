@@ -10,8 +10,8 @@ export class ElementGetSelectedCommand extends CommandHandler<void, EditorElemen
 		this._context = context;
 	}
 
-	async handle(): Promise<EditorElement|undefined> {
+	handle(): EditorElement|undefined {
 		const editor = this._context.gjseditor;
-		return Promise.resolve(editor.getSelected());
+		return editor.getSelected();
 	}
 }

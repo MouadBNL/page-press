@@ -9,9 +9,9 @@ export class ComponentEditCommand extends CommandHandler<void, void> {
 		this._context = context;
 	}
 
-	async handle(): Promise<void> {
+	handle(): void {
 		console.log('[ComponentEditCommand] handle');
-		this._context.run('spotlight:enable', undefined);
+		this._context.run('spotlight:enable');
 
 		this._context.editor.once('spotlight:disabled', () => {
 			console.log('[ComponentEditCommand] spotlight:disabled, emitting component:edited');
