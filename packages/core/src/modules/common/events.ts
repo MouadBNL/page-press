@@ -19,7 +19,7 @@ function registerSpotlightEvents(bus: EditorEventBus, context: EditorContext) {
 	const editor = context.gjseditor;
 	editor.on('spotlight:disabled', () => {
 		console.log('[registerSpotlightEvents] spotlight:disabled');
-		bus.emit('spotlight:disabled', undefined);
+		bus.emit('spotlight:disabled');
 	});
 }
 

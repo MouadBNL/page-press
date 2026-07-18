@@ -15,20 +15,20 @@ export class ComponentEditCommand extends CommandHandler<void, void> {
 
 		this._context.editor.once('spotlight:disabled', () => {
 			console.log('[ComponentEditCommand] spotlight:disabled, emitting component:edited');
-			this._context.emit('component:edited', undefined);
+			this._context.emit('component:edited');
 		});
 
 
 		const selected = this._context.gjseditor.getSelected()?.getType();
 		if (!selected) {
-			this._context.emit('component:edit-failed', undefined);
+			this._context.emit('component:edit-failed');
 			return;
 		}
 
 		const component = this._context.componentManager().get(selected);
 
 		if (!component) {
-			this._context.emit('component:edit-failed', undefined);
+			this._context.emit('component:edit-failed');
 			return;
 		}
 

@@ -24,7 +24,7 @@ export class AddSelectedCommand extends CommandHandler<Payload, void> {
 			type: payload.selector.type === 'class' ? 1 : 2,
 		});
 		console.log('AddSelectedCommand handle', payload.selector);
-		this._context.emit('selectors:updated', undefined);
+		this._context.emit('selectors:updated');
 		return;
 	}
 }

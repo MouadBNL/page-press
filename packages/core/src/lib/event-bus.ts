@@ -1,5 +1,7 @@
 export type EventMap = Record<string, unknown>;
 export type EventHandler<T> = (payload: T) => void;
+type OptionalPayload<T> = [T] extends [void | undefined] ? [] : [payload: T];
+
 
 export class EventBus<Events extends EventMap> {
   private handlers: { [K in keyof Events]?: Set<EventHandler<Events[K]>> } = {};
@@ -24,9 +26,10 @@ export class EventBus<Events extends EventMap> {
     this.handlers[event]?.delete(handler);
   }
 
-  emit<K extends keyof Events>(event: K, payload: Events[K]): void {
+  emit<K extends keyof Events>(event: K, ...rest: OptionalPayload<Events[K]>): void {
     const set = this.handlers[event];
     if (!set) return;
+    const payload = rest[0] as Events[K];
     // Snapshot so handlers unsubscribing mid-emit don't affect iteration
     for (const handler of [...set]) {
       try {

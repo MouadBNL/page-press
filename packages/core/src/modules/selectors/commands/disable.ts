@@ -20,7 +20,7 @@ export class DisableSelectorCommand extends CommandHandler<Payload, void> {
 		if(selector) {
 			selector.setActive(false);
 		}
-		this._context.emit('selectors:updated', undefined);
+		this._context.emit('selectors:updated');
 		return;
 	}
 }

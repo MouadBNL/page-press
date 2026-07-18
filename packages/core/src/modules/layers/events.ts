@@ -10,6 +10,6 @@ export type LayerEvents = {
 export function registerLayerEvents(bus: EditorEventBus, context: EditorContext) {
 	const editor = context.gjseditor;
 	editor.on('layer:component', () => {
-		bus.emit('layers:updated', undefined);
+		bus.emit('layers:updated');
 	});
 }

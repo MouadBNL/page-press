@@ -13,9 +13,9 @@ export class BlockLoadCommand extends CommandHandler<Payload, boolean> {
 	}
 
 	handle(payload: Payload): boolean {
-		this._context.emit('blocks:loading', undefined as void);
+		this._context.emit('blocks:loading');
 		this._context.blockManager().set(payload);
-		this._context.emit('blocks:loaded', undefined as void);
+		this._context.emit('blocks:loaded');
 		return true;
 	}
 }

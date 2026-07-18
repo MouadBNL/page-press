@@ -32,7 +32,7 @@ export function registerEditorEvents(bus: EditorEventBus, context: EditorContext
 		console.log('component:selected', e)
 		bus.emit('elements:selected', e);
 	});
-	bus.emit('style:sectors:ready', undefined);
+	bus.emit('style:sectors:ready');
 
 	registerStyleEvents(bus, context);
 	registerLayerEvents(bus, context);

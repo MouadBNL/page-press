@@ -21,7 +21,7 @@ export class RemoveSelectedCommand extends CommandHandler<Payload, void> {
 			editor.Selectors.removeSelected(selector);
 		}
 		console.log('RemoveSelectedCommand handle', payload.name);
-		this._context.emit('selectors:updated', undefined);
+		this._context.emit('selectors:updated');
 		return;
 	}
 }
