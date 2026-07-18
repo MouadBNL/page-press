@@ -15,13 +15,16 @@ export class ComponentDragStartCommand extends CommandHandler<Payload, void> {
 
 	handle(payload: Payload): void {
 		const component = this._context.componentManager().get(payload.componentId);
+		console.log('component', component);
 		if(!component) {
 			console.warn(`Could not find component with id ${payload.componentId}.`);
 			return;
 		}
 
 		const editor = this._context.gjseditor;
-		editor.Canvas.startDrag(component);
+		editor.Canvas.startDrag({
+			content: { type : component.id },
+		});
 		return;
 	}
 }

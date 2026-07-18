@@ -12,6 +12,7 @@ import { useEditorLayersSync } from "../../hooks/use-editor-layers-sync";
 import { useEditorPropertiesSync } from "../../hooks/use-editor-properties-sync";
 import { EditorComponentDefinition } from "@pagepress/core/src/modules/components";
 import { useEditorEditComponentSync } from "../../hooks/use-editor-edit-component-sync";
+import { useEditorComponentsSync } from "../../hooks/use-editor-components-sync";
 
 type Props = React.ComponentProps<"section"> & {
 	blocks?: BlockDefinition[]
@@ -82,6 +83,7 @@ function EditorSync() {
 	useEditorSectorsSync();
 	useEditorLayersSync();
 	useEditorPropertiesSync();
+	useEditorComponentsSync();
 	useEditorEditComponentSync();
 
 	return  null;

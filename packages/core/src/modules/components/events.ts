@@ -9,6 +9,8 @@ export type ComponentEvents = {
 	'component:edited': void;
 	'component:edit-failed': void;
 	'component:update': { component: EditorComponentDefinition };
+
+	'components:list:updated': void;
 };
 
 

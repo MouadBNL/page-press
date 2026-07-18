@@ -23,7 +23,7 @@ function App() {
               <Editor.Panels.Blocks />
             </Editor.ActivityBarItem>
             <Editor.ActivityBarItem id="components" label="Components" icon={<IconComponents className="size-5" />}>
-              Components
+              <Editor.Panels.Components />
             </Editor.ActivityBarItem>
 
             <Editor.ActivityBarItem id="component-edit" label="Component Edit" icon={<IconComponents />}>
