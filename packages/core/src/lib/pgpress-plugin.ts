@@ -45,6 +45,12 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 		return false;
 	};
 
+	// Visual/layout ratio of the frame: 1 unless the canvas is zoomed.
+	const getFrameScale = (): number => {
+		const frameEl = editor.Canvas.getFrameEl();
+		return frameEl?.offsetWidth ? frameEl.getBoundingClientRect().width / frameEl.offsetWidth : 1;
+	};
+
 	const updateClipPath = () => {
 		if (!overlay || !spotlighted) return;
 		const el = spotlighted.getEl();
@@ -56,7 +62,7 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 		const canvasRect = canvasEl.getBoundingClientRect();
 		// Rects measured inside the iframe are in iframe CSS pixels; if the frame
 		// is zoomed (CSS transform), map them through the visual/layout ratio.
-		const scale = frameEl.offsetWidth ? frameRect.width / frameEl.offsetWidth : 1;
+		const scale = getFrameScale();
 		const elRect = el.getBoundingClientRect();
 
 		const x1 = frameRect.left - canvasRect.left + elRect.left * scale - HOLE_PADDING;
@@ -82,6 +88,19 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 		event.preventDefault();
 		event.stopPropagation();
 		editor.Commands.run('spotlight:unset');
+	};
+
+	// The overlay swallows wheel events the canvas would otherwise receive;
+	// forward them so scrolling keeps working while spotlighted. Deltas are in
+	// outer CSS px (or lines, deltaMode 1) — convert to frame px via the zoom
+	// scale. The frame scroll listener then repositions the hole.
+	const onOverlayWheel = (event: WheelEvent) => {
+		const unit = event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 16 : 1;
+		const scale = getFrameScale();
+		editor.Canvas.getWindow()?.scrollBy({
+			left: (event.deltaX * unit) / scale,
+			top: (event.deltaY * unit) / scale,
+		});
 	};
 
 	// `component:toggled` fires mid-way through selection changes (deselect old,
@@ -130,6 +149,7 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 		editor.off('canvas:refresh', scheduleUpdate);
 
 		overlay?.removeEventListener('pointerdown', onOverlayPointerDown);
+		overlay?.removeEventListener('wheel', onOverlayWheel);
 		overlay?.remove();
 		overlay = null;
 		spotlighted = null;
@@ -160,6 +180,7 @@ export const PgpressSpotlightPlugin: Plugin = (editor) => {
 			zIndex: '1',
 		});
 		overlay.addEventListener('pointerdown', onOverlayPointerDown);
+		overlay.addEventListener('wheel', onOverlayWheel, { passive: true });
 		const framesEl = canvasEl.querySelector('.gjs-cv-canvas__frames');
 		canvasEl.insertBefore(overlay, framesEl ? framesEl.nextSibling : null);
 
