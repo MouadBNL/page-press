@@ -26,6 +26,16 @@ export class ComponentManager {
 		return structuredClone(Object.values(this._components));
 	}
 
+	public add(component: EditorComponentDefinition) {
+		if(this._components[component.id]) {
+			console.warn(`Component with id ${component.id} already exists.`);
+			return;
+		}
+		this._components[component.id] = component;
+		this.register(component);
+		this.context.emit('components:list:updated');
+	}
+
 	public update(id: string, component: EditorComponentDefinition) {
 		this._components[id] = component;
 		this.context.emit('component:update', { component });
