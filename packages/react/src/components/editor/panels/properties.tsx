@@ -4,6 +4,7 @@ import { EditorProperty } from "@pagepress/core";
 import { useLocalEcho } from "../../../hooks/use-local-echo";
 import { Input } from "@pagepress/ui/components/input";
 import { useEffect } from "react";
+import { Label } from "@pagepress/ui/components/label";
 
 
 
@@ -49,7 +50,7 @@ function PropertyItem({ property, onChange }: { property: EditorProperty, onChan
 
 	return (
 		<div>
-			<label>{property.getLabel()}</label>
+			<Label className="text-muted-foreground pb-1">{property.getLabel()}</Label>
 			<Input
 				value={echo.value}
 				onChange={(e) => echo.onChange(e.target.value)}
