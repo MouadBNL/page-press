@@ -12,7 +12,11 @@ import { debounce } from "../lib/debounce";
  * store round-trip. While unfocused, `externalValue` always wins. The outgoing
  * command is debounced, but blur flushes immediately so no edit is ever lost.
  */
-export function useLocalEcho(externalValue: any, onChange: (value: any) => void, delay = 100) {
+export function useLocalEcho<T>(
+	externalValue: T,
+	onChange: (value: T) => void,
+	delay = 100,
+) {
 	const [value, setValue] = useState(externalValue);
 	const focusedRef = useRef(false);
 
@@ -21,9 +25,9 @@ export function useLocalEcho(externalValue: any, onChange: (value: any) => void,
 	onChangeRef.current = onChange;
 
 	// Stable debounced command, created once per field instance.
-	const debouncedRef = useRef<((value: any) => void) | null>(null);
+	const debouncedRef = useRef<((value: T) => void) | null>(null);
 	if (!debouncedRef.current) {
-		debouncedRef.current = debounce((v: any) => onChangeRef.current(v), delay);
+		debouncedRef.current = debounce((v: T) => onChangeRef.current(v), delay);
 	}
 
 	// Adopt external changes only when the user isn't actively typing.
@@ -33,7 +37,7 @@ export function useLocalEcho(externalValue: any, onChange: (value: any) => void,
 
 	return {
 		value,
-		onChange: (v: any) => {
+		onChange: (v: T) => {
 			setValue(v);
 			debouncedRef.current!(v);
 		},

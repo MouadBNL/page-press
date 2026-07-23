@@ -1,6 +1,7 @@
-import { TraitProperties, type Editor as GjsEditor } from "grapesjs";
-import { EditorComponentDefinition, EditorComponentPropDefinition } from "../types";
+import { type Editor as GjsEditor } from "grapesjs";
+import { EditorComponentDefinition } from "../types";
 import { renderTemplate, stringifyAttrs } from "./template";
+import { extractDefaultProps, extractTraits } from "./derive";
 
 const penIcon = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
   <path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/>
@@ -111,41 +112,22 @@ export function registerComponentType(gjseditor: GjsEditor, id: string, getter: 
 	});
 }
 
+export function updateComponentType(gjseditor: GjsEditor, def: EditorComponentDefinition)  {
+	const wrapper = gjseditor.Components.getWrapper();
+	if (!wrapper) return;
 
-function extractDefaultProps(props: Record<string, EditorComponentPropDefinition>) {
-
-	let result: Record<string, unknown> = {};
-	for (const [key, value] of Object.entries(props)) {
-		if (value?.default) {
-			result[key] = value.default.toString();
+	gjseditor.UndoManager.skip(() => {
+		for (const instance of wrapper.findType(def.id)) {
+			const defaults = extractDefaultProps(def.properties);
+			const current = instance.get('props') ?? {};
+			// keys come from the schema; existing instance values win
+			const props = Object.fromEntries(
+				Object.keys(def.properties).map(k => [k, current[k] ?? defaults[k]])
+			);
+			instance.set('props', props);
+			// @ts-expect-error
+			instance.set('traits', extractTraits(def.properties));
+			instance.view?.render();
 		}
-	}
-
-	console.log("extractDefaultProps", result);
-	return result;
-}
-
-
-
-function extractTraits(props: Record<string, EditorComponentPropDefinition>) {
-	return Object.entries(props).map(([key, value]) => propDefinitionToTrait(key, value));
-}
-
-
-function propDefinitionToTrait(id: string, propDefinition: EditorComponentPropDefinition): Partial<TraitProperties> {
-
-	return {
-		id: id,
-		name: id,
-		label: propDefinition.label,
-		type: propDefinition.type,
-		placeholder: propDefinition.label ?? '',
-		getValue: ({ component }) => {
-			return component.get('props')?.[id];
-		},
-		setValue: ({ component, value }) => {
-			component.set('props', { ...component.get('props'), [id]: value });
-			component.trigger('change:props');
-		},
-	}
+	});
 }

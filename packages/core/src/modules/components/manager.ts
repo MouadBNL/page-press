@@ -1,6 +1,6 @@
 import { EditorContext } from "../../kernel/types";
 import { refreshComponentTypeContent } from "./lib/refresh-component-type-content";
-import { registerComponentType } from "./lib/register-component-type";
+import { registerComponentType, updateComponentType } from "./lib/register-component-type";
 import { EditorComponentDefinition } from "./types";
 
 
@@ -38,8 +38,10 @@ export class ComponentManager {
 
 	public update(id: string, component: EditorComponentDefinition) {
 		this._components[id] = component;
+		this.register(component);
+		updateComponentType(this.context.gjseditor, component);
+		// refreshComponentTypeContent(this.context.gjseditor, id);
 		this.context.emit('component:update', { component });
-		refreshComponentTypeContent(this.context.gjseditor, id);
 	}
 
 	public register(component: EditorComponentDefinition) {

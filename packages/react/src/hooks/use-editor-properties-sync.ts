@@ -18,8 +18,10 @@ export function useEditorPropertiesSync() {
 		}, 100);
 		handle();
 		editor.on('elements:selected', handle);
+		editor.on('component:update', handle);
 		return () => {
 			editor.off('elements:selected', handle);
+			editor.off('component:update', handle);
 		}
 	}, []);
 }

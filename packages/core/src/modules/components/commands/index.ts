@@ -5,6 +5,7 @@ import { ComponentUpdateCommand } from "./update";
 import { ComponentDragStartCommand } from "./drag-start";
 import { ComponentDragEndCommand } from "./drag-end";
 import { ComponentListAddCommand } from "./list-add";
+import { ComponentPropertyAddCommand } from "./property-add";
 
 export const ComponentCommands = {
 	"components:drag-start": (context: EditorContext) => new ComponentDragStartCommand(context),
@@ -14,4 +15,6 @@ export const ComponentCommands = {
 	
 	"components:list": (context: EditorContext) => new ComponentListCommand(context),
 	"components:list:add": (context: EditorContext) => new ComponentListAddCommand(context),
+
+	"components:property:add": (context: EditorContext) => new ComponentPropertyAddCommand(context),
 } as const satisfies EditorCommandRegistry;
